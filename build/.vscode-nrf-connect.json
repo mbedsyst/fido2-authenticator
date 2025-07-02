@@ -1,0 +1,17 @@
+{
+  "toolchainPath": "/home/mbedsyst/ncs/toolchains/7cbc0036f4",
+  "sdkPath": "/home/mbedsyst/ncs/v3.0.0",
+  "board": "nrf52840dk/nrf52840",
+  "boardDir": "/home/mbedsyst/ncs/v3.0.0/zephyr/boards/nordic/nrf52840dk",
+  "boardDirs": [
+    "/home/mbedsyst/ncs/v3.0.0/zephyr/boards/nordic/nrf52840dk"
+  ],
+  "optimizations": "none",
+  "cmakeArgs": [],
+  "confFiles": [],
+  "buildDirectory": "build",
+  "kconfigFragments": [],
+  "snippets": [],
+  "dtcOverlays": [],
+  "extraDtcOverlays": []
+}

@@ -1,0 +1,43 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/home/mbedsyst/Lab/Nordic/ncs/fido2_authenticator/build/_sysbuild/sysbuild/images/CMakeFiles/fido2_authenticator"
+		},
+		{
+			"file" : "/home/mbedsyst/Lab/Nordic/ncs/fido2_authenticator/build/_sysbuild/sysbuild/images/CMakeFiles/fido2_authenticator.rule"
+		},
+		{
+			"file" : "/home/mbedsyst/Lab/Nordic/ncs/fido2_authenticator/build/_sysbuild/sysbuild/images/CMakeFiles/fido2_authenticator-complete.rule"
+		},
+		{
+			"file" : "/home/mbedsyst/Lab/Nordic/ncs/fido2_authenticator/build/_sysbuild/sysbuild/images/fido2_authenticator-prefix/src/fido2_authenticator-stamp/fido2_authenticator-build.rule"
+		},
+		{
+			"file" : "/home/mbedsyst/Lab/Nordic/ncs/fido2_authenticator/build/_sysbuild/sysbuild/images/fido2_authenticator-prefix/src/fido2_authenticator-stamp/fido2_authenticator-configure.rule"
+		},
+		{
+			"file" : "/home/mbedsyst/Lab/Nordic/ncs/fido2_authenticator/build/_sysbuild/sysbuild/images/fido2_authenticator-prefix/src/fido2_authenticator-stamp/fido2_authenticator-download.rule"
+		},
+		{
+			"file" : "/home/mbedsyst/Lab/Nordic/ncs/fido2_authenticator/build/_sysbuild/sysbuild/images/fido2_authenticator-prefix/src/fido2_authenticator-stamp/fido2_authenticator-install.rule"
+		},
+		{
+			"file" : "/home/mbedsyst/Lab/Nordic/ncs/fido2_authenticator/build/_sysbuild/sysbuild/images/fido2_authenticator-prefix/src/fido2_authenticator-stamp/fido2_authenticator-mkdir.rule"
+		},
+		{
+			"file" : "/home/mbedsyst/Lab/Nordic/ncs/fido2_authenticator/build/_sysbuild/sysbuild/images/fido2_authenticator-prefix/src/fido2_authenticator-stamp/fido2_authenticator-patch.rule"
+		},
+		{
+			"file" : "/home/mbedsyst/Lab/Nordic/ncs/fido2_authenticator/build/_sysbuild/sysbuild/images/fido2_authenticator-prefix/src/fido2_authenticator-stamp/fido2_authenticator-update.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"fido2_authenticator"
+		],
+		"name" : "fido2_authenticator"
+	}
+}

@@ -1,0 +1,13 @@
+# Target labels
+ fido2_authenticator
+# Source files and their labels
+/home/mbedsyst/Lab/Nordic/ncs/fido2_authenticator/build/_sysbuild/sysbuild/images/CMakeFiles/fido2_authenticator
+/home/mbedsyst/Lab/Nordic/ncs/fido2_authenticator/build/_sysbuild/sysbuild/images/CMakeFiles/fido2_authenticator.rule
+/home/mbedsyst/Lab/Nordic/ncs/fido2_authenticator/build/_sysbuild/sysbuild/images/CMakeFiles/fido2_authenticator-complete.rule
+/home/mbedsyst/Lab/Nordic/ncs/fido2_authenticator/build/_sysbuild/sysbuild/images/fido2_authenticator-prefix/src/fido2_authenticator-stamp/fido2_authenticator-build.rule
+/home/mbedsyst/Lab/Nordic/ncs/fido2_authenticator/build/_sysbuild/sysbuild/images/fido2_authenticator-prefix/src/fido2_authenticator-stamp/fido2_authenticator-configure.rule
+/home/mbedsyst/Lab/Nordic/ncs/fido2_authenticator/build/_sysbuild/sysbuild/images/fido2_authenticator-prefix/src/fido2_authenticator-stamp/fido2_authenticator-download.rule
+/home/mbedsyst/Lab/Nordic/ncs/fido2_authenticator/build/_sysbuild/sysbuild/images/fido2_authenticator-prefix/src/fido2_authenticator-stamp/fido2_authenticator-install.rule
+/home/mbedsyst/Lab/Nordic/ncs/fido2_authenticator/build/_sysbuild/sysbuild/images/fido2_authenticator-prefix/src/fido2_authenticator-stamp/fido2_authenticator-mkdir.rule
+/home/mbedsyst/Lab/Nordic/ncs/fido2_authenticator/build/_sysbuild/sysbuild/images/fido2_authenticator-prefix/src/fido2_authenticator-stamp/fido2_authenticator-patch.rule
+/home/mbedsyst/Lab/Nordic/ncs/fido2_authenticator/build/_sysbuild/sysbuild/images/fido2_authenticator-prefix/src/fido2_authenticator-stamp/fido2_authenticator-update.rule

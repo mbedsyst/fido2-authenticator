@@ -1,0 +1,22 @@
+cmake:
+  board:
+    name: nrf52840dk
+    path:
+     - /home/mbedsyst/ncs/v3.0.0/zephyr/boards/nordic/nrf52840dk
+    qualifiers: nrf52840
+    revision: 
+  images:
+   - name: fido2_authenticator
+     source-dir: /home/mbedsyst/Lab/Nordic/ncs/fido2_authenticator
+     type: MAIN
+  kconfig:
+    files:
+     - /home/mbedsyst/Lab/Nordic/ncs/fido2_authenticator/build/_sysbuild/empty.conf
+     - /home/mbedsyst/Lab/Nordic/ncs/fido2_authenticator/build/_sysbuild/empty.conf
+    user-files:
+     - /home/mbedsyst/Lab/Nordic/ncs/fido2_authenticator/build/_sysbuild/empty.conf
+version: 0.1.0
+west:
+  command: /home/mbedsyst/ncs/toolchains/7cbc0036f4/usr/local/bin/west build --build-dir /home/mbedsyst/Lab/Nordic/ncs/fido2_authenticator/build /home/mbedsyst/Lab/Nordic/ncs/fido2_authenticator --pristine --board nrf52840dk/nrf52840
+  topdir: /home/mbedsyst/ncs/v3.0.0
+  version: 1.2.0

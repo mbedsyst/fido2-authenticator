@@ -1,0 +1,52 @@
+cmake:
+  application:
+    configuration-dir: /home/mbedsyst/Lab/Nordic/ncs/fido2_authenticator
+    source-dir: /home/mbedsyst/Lab/Nordic/ncs/fido2_authenticator
+  board:
+    name: nrf52840dk
+    path:
+     - /home/mbedsyst/ncs/v3.0.0/zephyr/boards/nordic/nrf52840dk
+    qualifiers: nrf52840
+    revision: 
+  devicetree:
+    bindings-dirs:
+     - /home/mbedsyst/ncs/v3.0.0/nrf/dts/bindings
+     - /home/mbedsyst/ncs/v3.0.0/zephyr/dts/bindings
+    files:
+     - /home/mbedsyst/ncs/v3.0.0/zephyr/boards/nordic/nrf52840dk/nrf52840dk_nrf52840.dts
+    include-dirs:
+     - /home/mbedsyst/ncs/v3.0.0/nrf/include
+     - /home/mbedsyst/ncs/v3.0.0/nrf/dts/common
+     - /home/mbedsyst/ncs/v3.0.0/nrf/dts/riscv
+     - /home/mbedsyst/ncs/v3.0.0/nrf/dts/arm
+     - /home/mbedsyst/ncs/v3.0.0/nrf/dts
+     - /home/mbedsyst/ncs/v3.0.0/zephyr/include
+     - /home/mbedsyst/ncs/v3.0.0/zephyr/include/zephyr
+     - /home/mbedsyst/ncs/v3.0.0/zephyr/dts/common
+     - /home/mbedsyst/ncs/v3.0.0/zephyr/dts/x86
+     - /home/mbedsyst/ncs/v3.0.0/zephyr/dts/xtensa
+     - /home/mbedsyst/ncs/v3.0.0/zephyr/dts/sparc
+     - /home/mbedsyst/ncs/v3.0.0/zephyr/dts/riscv
+     - /home/mbedsyst/ncs/v3.0.0/zephyr/dts/posix
+     - /home/mbedsyst/ncs/v3.0.0/zephyr/dts/nios2
+     - /home/mbedsyst/ncs/v3.0.0/zephyr/dts/arm64
+     - /home/mbedsyst/ncs/v3.0.0/zephyr/dts/arm
+     - /home/mbedsyst/ncs/v3.0.0/zephyr/dts/arc
+     - /home/mbedsyst/ncs/v3.0.0/zephyr/dts
+  kconfig:
+    files:
+     - /home/mbedsyst/ncs/v3.0.0/zephyr/boards/nordic/nrf52840dk/nrf52840dk_nrf52840_defconfig
+     - /home/mbedsyst/Lab/Nordic/ncs/fido2_authenticator/prj.conf
+     - /home/mbedsyst/Lab/Nordic/ncs/fido2_authenticator/build/fido2_authenticator/zephyr/.config.sysbuild
+    user-files:
+     - /home/mbedsyst/Lab/Nordic/ncs/fido2_authenticator/prj.conf
+  toolchain:
+    name: zephyr
+    path: /home/mbedsyst/ncs/toolchains/7cbc0036f4/opt/zephyr-sdk
+  vendor-specific:
+    nordic:
+      svdfile: /home/mbedsyst/ncs/v3.0.0/modules/hal/nordic/nrfx/mdk/nrf52840.svd
+  zephyr:
+    version: 4.0.99
+    zephyr-base: /home/mbedsyst/ncs/v3.0.0/zephyr
+version: 0.1.0

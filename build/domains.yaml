@@ -1,0 +1,7 @@
+default: fido2_authenticator
+build_dir: /home/mbedsyst/Lab/Nordic/ncs/fido2_authenticator/build
+domains:
+  - name: fido2_authenticator
+    build_dir: /home/mbedsyst/Lab/Nordic/ncs/fido2_authenticator/build/fido2_authenticator
+flash_order:
+  - fido2_authenticator
