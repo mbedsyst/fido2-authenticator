@@ -11,7 +11,7 @@ static void on_long_press(void *user)
 
 void fido_main(void)
 {
-    printk("FIDO2 App Init\n");
+    log_info("FIDO2 App Init\n");
 
     ctx.button->register_long_press_cb(on_long_press, NULL);
 
