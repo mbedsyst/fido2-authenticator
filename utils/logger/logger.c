@@ -17,7 +17,7 @@
 #define MSG_BUFFER_SIZE 224
 
 static const struct device *uart_dev = NULL;
-static LogLevel current_level = LOG_LEVEL_INFO;
+static LogLevel current_level = LOG_LEVEL_DEBUG;
 
 int log_init(const struct device *dev, LogLevel level)
 {

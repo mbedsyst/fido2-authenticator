@@ -1,6 +1,4 @@
 cmake:
-  application:
-    source-dir: /home/mbedsyst/ncs/v3.0.0/zephyr/share/sysbuild
   board:
     name: nrf52840dk
     path:
@@ -17,7 +15,6 @@ cmake:
      - /home/mbedsyst/Lab/Nordic/ncs/fido2_authenticator/build/_sysbuild/empty.conf
     user-files:
      - /home/mbedsyst/Lab/Nordic/ncs/fido2_authenticator/build/_sysbuild/empty.conf
-  sysbuild: ON
 version: 0.1.0
 west:
   command: /home/mbedsyst/ncs/toolchains/7cbc0036f4/usr/local/bin/west build --build-dir /home/mbedsyst/Lab/Nordic/ncs/fido2_authenticator/build /home/mbedsyst/Lab/Nordic/ncs/fido2_authenticator --pristine --board nrf52840dk/nrf52840
