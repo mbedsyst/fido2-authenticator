@@ -19,4 +19,5 @@ target_sources(app PRIVATE
         app/fido_main.c
         utils/logger/logger.c
         drivers/ui/led_controller.c
+        drivers/ui/button_controller.c
 )
