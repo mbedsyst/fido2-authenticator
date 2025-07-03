@@ -1,13 +1,18 @@
 sample:
-  name: UART driver sample
+  name: FIDO2 Authenticator
+  description: >
+    A sample FIDO2 Authenticator implementation using USB HID.
+    Demonstrates USB enumeration, descriptor parsing, and CBOR-based FIDO2 messaging.
+
 tests:
-  sample.drivers.uart:
+  sample.app.fido2:
     integration_platforms:
-      - qemu_x86
+      - nrf52840dk_nrf52840
     tags:
-      - serial
-      - uart
-    filter: CONFIG_SERIAL and
-            CONFIG_UART_INTERRUPT_DRIVEN and
-            dt_chosen_enabled("zephyr,shell-uart")
-    harness: keyboard
+      - usb
+      - hid
+      - fido2
+      - security
+      - authentication
+    filter: CONFIG_USB_DEVICE_STACK and CONFIG_USB_HID_DEVICE
+    harness: console
