@@ -2,11 +2,14 @@
 #include <zephyr/drivers/gpio.h>
 #include <zephyr/sys/atomic.h>
 #include <zephyr/sys/reboot.h>
+#include <zephyr/logging/log.h>
 
 #include "button_controller.h"
 
 #define LONG_PRESS_MS   5000u
 #define DEBOUNCE_MS     30u
+
+LOG_MODULE_REGISTER(button_controller);
 
 static const struct gpio_dt_spec button_pin = GPIO_DT_SPEC_GET(DT_ALIAS(sw0), gpios);
 
@@ -34,12 +37,14 @@ static int button_init(void)
     int ret = gpio_pin_configure_dt(&button_pin, GPIO_INPUT | GPIO_PULL_UP);
     if(ret)
     {
+        LOG_ERR("Failed to Configure GPIO Pin");
         return ret;
     }
 
     ret = gpio_pin_interrupt_configure_dt(&button_pin, GPIO_INT_EDGE_BOTH);
     if(ret)
     {
+        LOG_ERR("Failed to Configure GPIO Pin Interrupt");
         return ret;
     }
 
@@ -53,11 +58,14 @@ static int button_init(void)
     ctx.long_cb = NULL;
     ctx.cb_user = NULL;
 
+    LOG_DBG("Initialized User Button");
+
     return 0;
 }
 
 static bool button_is_pressed(void)
 {
+    LOG_DBG("Checking if User Button is Pressed");
     return atomic_get(&ctx.pressed);
 }
 

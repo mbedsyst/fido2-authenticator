@@ -1,19 +1,23 @@
+#include <zephyr/logging/log.h>
+
 #include "app_ctx.h"
 #include "led_controller.h"
 #include "button_controller.h"
 #include "usb_transport.h"
-#include "logger.h"
 
+LOG_MODULE_REGISTER(app_ctx);
 
 app_ctx_t ctx;
 
 static void receive_report(const uint8_t *data, size_t len)
 {
-    log_info("Received OUT Report");
+    LOG_INF("Received OUT Report");
 }
 
 void app_ctx_init(void)
 {
+    LOG_INF("Setting Application Context");
+
     ctx.led = &led_controller_if;
     ctx.led->init();
 

@@ -1,24 +1,15 @@
 #include <zephyr/kernel.h>
-#include <zephyr/device.h>
+#include <zephyr/logging/log.h>
 
-#include "logger.h"
 #include "app_ctx.h"
 #include "fido_main.h"
 
-#define UART_DEVICE_NODE DT_CHOSEN(zephyr_shell_uart)
+LOG_MODULE_REGISTER(main);
 
 int main(void)
 {
-    const struct device *dev = DEVICE_DT_GET(UART_DEVICE_NODE);
-    int ret = log_initialize(dev, LOG_LEVEL_DEBUG);
-
-    if (ret)
-    {
-        printk("Logger failed (%d)\n", ret);
-    }
-
-    log_info("FIDO2 Authenticator Booting");
-
+    LOG_INF("Entry to main()");
+    
     app_ctx_init();
     fido_main();
 

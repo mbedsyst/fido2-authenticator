@@ -1,10 +1,13 @@
 #include <zephyr/kernel.h>
 #include <zephyr/drivers/gpio.h>
+#include <zephyr/logging/log.h>
 
 #include "led_controller.h"
 
 #define SLOW_PERIOD_MS  1000
 #define FAST_PERIOD_MS  200
+
+LOG_MODULE_REGISTER(led_controller);
 
 struct led_ctx
 {
@@ -48,6 +51,9 @@ static int led_init(void)
         leds[i].blink_timer.user_data = &leds[i];
         leds[i].current = LED_OFF;
     }
+
+    LOG_INF("Initialized the LEDs");
+
     return 0;
 }
 
@@ -82,11 +88,14 @@ static int led_set(led_id_t id, led_state_t state)
             return -EINVAL;
     }
 
+    LOG_DBG("Setting LED state");
+
     return 0;
 }
 
 static bool led_is_on(led_id_t id)
 {
+    LOG_DBG("Checking if LED is ON");
     if(id >= LED_COUNT)
     {
         return false;
@@ -96,6 +105,7 @@ static bool led_is_on(led_id_t id)
 
 static void blink_cb(struct k_timer *timer)
 {
+    LOG_DBG("Blinking LED");
     struct led_ctx *ctx = timer->user_data;
     gpio_pin_toggle_dt(&ctx->pin);
 }
