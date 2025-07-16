@@ -1,0 +1,11 @@
+/ {
+    hid_dev_0: hid_dev_0 {
+        compatible = "zephyr,hid-device";
+        status = "okay";
+        interface-name = "HID0";
+        in-report-size = <64>;
+        in-polling-period-us = <1000>;
+        out-report-size = <64>;
+        out-polling-period-us = <1000>;
+    };
+};

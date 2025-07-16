@@ -1,0 +1,18 @@
+sample:
+  name: FIDO2 Authenticator
+  description: >
+    A sample FIDO2 Authenticator implementation using USB HID.
+    Demonstrates USB enumeration, descriptor parsing, and CBOR-based FIDO2 messaging.
+
+tests:
+  sample.app.fido2:
+    integration_platforms:
+      - nrf52840dk_nrf52840
+    tags:
+      - usb
+      - hid
+      - fido2
+      - security
+      - authentication
+    filter: CONFIG_USB_DEVICE_STACK and CONFIG_USB_HID_DEVICE
+    harness: console
