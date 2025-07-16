@@ -1,7 +1,7 @@
-FIDO2 Authenticator
+Clone-Resistant Hardware Authenticator
 ===================
 
-A lightweight FIDO2 Authenticator built on the nRF52840 Development Kit using the nRF Connect SDK (NCS).  
+A FIDO2 compliant Passwordless Hardware Authenticator built on the nRF52840 Development Kit using the nRF Connect SDK (v3.0.0).  
 It uses the USB HID transport to support Passwordless Authentication via the FIDO2 protocol.
 
 Overview
