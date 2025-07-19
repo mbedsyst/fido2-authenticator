@@ -13,7 +13,6 @@ void fido_main(void)
 
     ctx.led->set(LED_OPERATION, LED_BLINK_SLOW);
 
-    
     while(1)
     {
         LOG_INF("Sending Dummy Report");
