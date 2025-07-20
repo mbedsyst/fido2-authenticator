@@ -8,17 +8,18 @@ project(FIDO2_Key)
 zephyr_include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 target_include_directories(app PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}/app
-        ${CMAKE_CURRENT_SOURCE_DIR}/interfaces
-        ${CMAKE_CURRENT_SOURCE_DIR}/drivers/ui
-        ${CMAKE_CURRENT_SOURCE_DIR}/drivers/transport
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/app
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/interfaces/transport
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/interfaces/ui
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/drivers/transport
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/drivers/ui
 )
 
 target_sources(app PRIVATE 
-        app/main.c
-        app/app_ctx.c
-        app/fido_main.c
-        drivers/ui/led_controller.c
-        drivers/ui/button_controller.c
-        drivers/transport/usb_transport.c
+        src/app/main.c
+        src/app/app_ctx.c
+        src/app/fido_main.c
+        src/drivers/ui/led_controller.c
+        src/drivers/ui/button_controller.c
+        src/drivers/transport/usb_transport.c
 )
