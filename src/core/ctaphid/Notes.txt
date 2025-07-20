@@ -1,0 +1,45 @@
+1. ctaphid_request_packet(uint8_t * hid_report) [Packet Receive function]
+    * Take as argument the pointer to the 64 byte HID Report from the hook
+    * Create the structure variable
+    * Retrieve and store the 4-byte CID 
+    * Check if the packet is INIT (byte[4] & 0x80 != 0)
+        * Check Command ID to see if is CTAPHID_CANCEL or CTAPHID_KEEPALIVE
+            * Process Response for CANCEL and KEEPALIVE commands, and return
+        * Store the Command ID in the struct member 'cmd'
+        * Retrieve the Packet Length from HID Report
+        * Calculate & Set Packet Count to struct member 'seq'
+        * Set Packet Length to the struct member 'expected_len'
+        * Copy Payload from packet to struct member 'data'
+        * Increment Received Payload size in struct member 'received_len'
+        * Set the struct member 'initialized' to true
+        * Set Fragment counter (static) to 0
+    * Check if the packet is CONT (byte[4] & 0x80 == 0)
+        * Copy Payload from packet to struct member 'data'
+        * Increment Received Payload size in struct member 'received_len'
+        * Increment Fragment counter by 1
+    * Check if received_len = expected_len
+        * Set Channel ID to a global variable 'active_channel_ID'
+        * Set Command ID to a global variable 'active_command_ID'
+        * If true, call CTAPHID Dispatcher
+    * Return status (to be checked) 
+
+2. Packet Response Function
+    * Take as argument the pointer to the CTAP2 'Command + Payload' array
+    * Create the structure variable
+    * Set the Channel ID in the struct member 'cid'
+    * Set the Command ID in the struct member 'cmd'
+    * Set the Payload length in the struct member 'total_len'
+    * Calculate & Set Packet count to struct member 'seq'
+    * Create a 64-byte array of type uint8_t and set to zero
+    * Send INIT Packet
+        * Set the 4-byte CID in the array
+        * Set the 1-byte CMD in the array
+        * Set the 2-byte LEN in the array
+        * Copy 57 byte of data from the payload referenced by 'data'
+        * Call the ctx.transport->send() to send out the INIT packet
+    * Send CONT Packets (for (int i = 0; i < seq; i++))
+        * Set the 4-byte CID in the array
+        * Set the 1-byte SEQ in the array
+        * Copy 59 byte of data from the payload referenced by 'data'
+        * Call the ctx.transport->send() to send out the CONT packets
+    * Return status (to be checked)
