@@ -1,6 +1,6 @@
 /**
  * @file    ctaphid_reconstructor.c
- * @brief   Handles reassembly of CTAPHID INIT and CONT packets
+ * @brief   Handles reassembly of CTAPHID Message from INIT and CONT packets
  * 
  * This module is responsible for assembling INIT and CONT Packets
  * to form a complete Message in a CTAPHID Transaction
@@ -56,60 +56,61 @@ ctaphid_status_t ctaphid_msg_reconstructor(uint8_t* report)
         LOG_ERR("Received NULL Report");
         return CTAPHID_ERROR_INVALID_INPUT;
     }
-
+    // ToDo: Check and use the following two variables
     static uint8_t packet_counter = 0;
     static uint8_t payload_length = 0;
-    static ctaphid_req_session_t session = {0};
+    static ctaphid_req_session_t req_session = {0};
+
     // Retrieve the Channel ID from Report
-    session.channel_id[CID_POS + 0] = report[CID_POS + 0];
-    session.channel_id[CID_POS + 1] = report[CID_POS + 1];
-    session.channel_id[CID_POS + 2] = report[CID_POS + 2];
-    session.channel_id[CID_POS + 3] = report[CID_POS + 3];
+    req_session.channel_id[CID_POS + 0] = report[CID_POS + 0];
+    req_session.channel_id[CID_POS + 1] = report[CID_POS + 1];
+    req_session.channel_id[CID_POS + 2] = report[CID_POS + 2];
+    req_session.channel_id[CID_POS + 3] = report[CID_POS + 3];
 
     // Checking if it is an INIT Packet
     if(report[INIT_CMD_POS] & 0x80 != 0)
     {
         LOG_DBG("Received an INIT Packet.");
 
-        session.cmd = report[INIT_CMD_POS];
-        if(session.cmd == CTAPHID_INIT)
+        req_session.cmd = report[INIT_CMD_POS];
+        if(req_session.cmd == CTAPHID_INIT)
         {
             LOG_DBG("INIT Command Received");
             // Copy 8-bye Nonce
             // CALL INIT Dispatcher
         }
-        else if(session.cmd == CTAPHID_PING)
+        else if(req_session.cmd == CTAPHID_PING)
         {
             LOG_DBG("PING Command Received");
             // CALL PING Dispatcher
         }
-        else if(session.cmd == CTAPHID_CANCEL)
+        else if(req_session.cmd == CTAPHID_CANCEL)
         {
             LOG_DBG("CANCEL Command Received");
             // Call CANCEL Dispatcher
         }
-        else if(session.cmd == CTAPHID_KEEPALIVE)
+        else if(req_session.cmd == CTAPHID_KEEPALIVE)
         {
             LOG_DBG("KEEPALIVE Command Received");
             // Call KEEPALIVE Dispatcher
         }
 
-        session.expected_len = ((report[INIT_BCNTH_POS] << 8) & 0xFF) | (report[INIT_BCNTL_POS] & 0xFF);
-        session.seq = CalculateSequencePackets(session.expected_len);
+        req_session.expected_len = ((report[INIT_BCNTH_POS] << 8) & 0xFF) | (report[INIT_BCNTL_POS] & 0xFF);
+        req_session.seq = CalculateSequencePackets(req_session.expected_len);
         // ToDo: Fix bytes to copy from Report
-        memcpy(&session.data[PKT_INITPKT_DATA_POS], &report[INIT_DATA_POS], DataSizeToCopy);
+        memcpy(&req_session.data[PKT_INITPKT_DATA_POS], &report[INIT_DATA_POS], DataSizeToCopy);
         // ToDo: Increment the Received Length member carefully
-        session.received_len += DataSizeToCopy;
-        session.initialized = true;
+        req_session.received_len += DataSizeToCopy;
+        req_session.initialized = true;
         packet_counter++;
     }
     // Checking if it is a CONT Packet
     else if(report[INIT_CMD_POS] & 0x80 == 0)
     {
         // ToDo: Fix bytes to copy from Report
-        memcpy(&session.data[PKT_CONTPKT_DATA_POS], &report[CONT_DATA_POS], DataSizeToCopy);
+        memcpy(&req_session.data[PKT_CONTPKT_DATA_POS], &report[CONT_DATA_POS], DataSizeToCopy);
         // ToDo: Increment the Received Length member carefully
-        session.received_len += DataSizeToCopy;
+        req_session.received_len += DataSizeToCopy;
         packet_counter++;
     }
     // Handling if Packet is Invalid
@@ -119,18 +120,18 @@ ctaphid_status_t ctaphid_msg_reconstructor(uint8_t* report)
         return CTAPHID_ERROR_INVALID_PKT;
     }
 
-    if(session.received_len == session.expected_len)
+    if(req_session.received_len == req_session.expected_len)
     {
-        LOG_DBG("Received all packets. Total %d bytes", session.received_len);
-        memcpy(active_cid, &session.channel_id, CID_LEN);
-        active_cmd = session.cmd;
+        LOG_DBG("Received all packets. Total %d bytes", req_session.received_len);
+        memcpy(active_cid, &req_session.channel_id, CID_LEN);
+        active_cmd = req_session.cmd;
 
-        if(session.cmd == CTAPHID_MSG)
+        if(req_session.cmd == CTAPHID_MSG)
         {
             LOG_DBG("MSG Command Received");
             // Call MSG Dispatcher
         }
-        else if(session.cmd == CTAPHID_CBOR)
+        else if(req_session.cmd == CTAPHID_CBOR)
         {
             LOG_DBG("CBOR Command Received");
             // Call CBOR Dispatcher

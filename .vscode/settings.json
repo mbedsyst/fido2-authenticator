@@ -1,6 +1,9 @@
 {
     "files.associations": {
         "atomic.h": "c",
-        "ctaphid_deconstructor.h": "c"
+        "ctaphid_deconstructor.h": "c",
+        "stdint.h": "c",
+        "ctaphid_reconstructor.h": "c",
+        "ctaphid.h": "c"
     }
 }

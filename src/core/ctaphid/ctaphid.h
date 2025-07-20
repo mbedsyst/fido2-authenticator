@@ -49,6 +49,7 @@
 #define CONT_DATA_MAX_LEN       59
 
 // Packet Related Macro Definitions
+#define PKT_SIZE_DEFAULT        64
 #define PKT_INITPKT_DATA_POS    0
 #define PKT_CONTPKT_DATA_POS    57
 #define PKT_LEN_FOR_INIT_ONLY   57
