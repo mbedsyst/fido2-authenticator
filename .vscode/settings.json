@@ -4,6 +4,7 @@
         "ctaphid_deconstructor.h": "c",
         "stdint.h": "c",
         "ctaphid_reconstructor.h": "c",
-        "ctaphid.h": "c"
+        "ctaphid.h": "c",
+        "stddef.h": "c"
     }
 }
