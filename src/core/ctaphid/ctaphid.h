@@ -59,7 +59,8 @@
 #define PKT_MAX_PAYLOAD_LEN     7069
 
 // Message Related Macro Definitions
-#define MSG_MAX_LEN             8256
+#define MAX_PAYLOAD_LEN         7069
+#define MAX_MESSAGE_LEN         8256
 
 // Channel ID Macro Definitions
 #define BROADCAST_CID           0xFFFFFFFF

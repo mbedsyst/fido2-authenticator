@@ -14,7 +14,7 @@
 #include "ctaphid.h"
 #include "ctaphid_receiver.h"
 
-uint8_t ctaphid_message[MSG_MAX_LEN] = {0};
+uint8_t ctaphid_message[MAX_MESSAGE_LEN] = {0};
 
 uint8_t CalculatePacketCount(uint16_t payload_len)
 {
@@ -86,6 +86,7 @@ void ctaphid_receive_packet(uint8_t* report)
         total_packet_count = CalculatePacketCount(total_len);
     }
 
+    // ToDo: Fix the Byte position
     memcpy(&ctaphid_message[], report, PKT_SIZE_DEFAULT);
     received_len += PKT_SIZE_DEFAULT;
     received_packet_count += 1;
@@ -94,12 +95,5 @@ void ctaphid_receive_packet(uint8_t* report)
     {
         /*** Set FSM State to PROCESSING ***/
     }
-
-    
-
-
-
-
-
 }
 

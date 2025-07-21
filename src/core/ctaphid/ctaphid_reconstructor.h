@@ -3,7 +3,7 @@
  * @brief   Header for CTAPHID Reconstructor
  * 
  * This header includes the Public function header for
- * the CTAPHID Message Reconstructor
+ * the CTAP2 Payload Reconstructor
  */
 
 #ifndef CORE_CTAPHID_RECONSTRUCTOR_H_
@@ -13,11 +13,11 @@
 #include <stdint.h>
 
 /**
- * @brief Reconstructs a CTAPHID message from a 64-byte USB HID report.
+ * @brief Reconstructs a CTAPHID message from the Message Buffer.
  *
- * This function takes a raw HID report (received from the USB stack) and
- * reconstructs the complete CTAPHID message by assembling INIT and CONT packets.
- * Once the full message is reconstructed, it may be forwarded to the dispatcher.
+ * This function takes the Message Buffer and reconstructs the complete CTAP2 payload 
+ * message by parsing INIT and CONT packets. Once the full payload is reconstructed, 
+ * it may be forwarded to the dispatcher.
  *
  * @param[in]  report   Pointer to the received 64-byte HID report.
  *
@@ -25,6 +25,6 @@
  *         - CTAPHID_OK on success.
  *         - Non-zero value on error
  */
-ctaphid_status_t ctaphid_msg_reconstructor(uint8_t* report);
+ctaphid_status_t ctaphid_msg_reconstructor(uint8_t* message_buffer);
 
 #endif
