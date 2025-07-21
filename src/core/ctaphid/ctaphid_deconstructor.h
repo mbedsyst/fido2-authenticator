@@ -25,6 +25,6 @@
   *         - CTAPHID_OK on success.
   *         - Non-zero value on error
   */
- ctaphid_status_t ctaphid_msg_deconstructor(uint8_t* response, uint16_t response_len);
+ size_t ctaphid_construct_packets(uint8_t* payload, uint16_t payload_len, uint32_t cid, uint8_t cmd, uint8_t* out_buf);
  
  #endif

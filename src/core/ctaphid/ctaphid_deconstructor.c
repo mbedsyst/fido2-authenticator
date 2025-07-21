@@ -22,105 +22,53 @@ LOG_MODULE_REGISTER(ctaphid_deconstructor);
 extern uint8_t active_cid[CID_LEN];
 extern uint8_t active_cmd;
 
-static uint8_t CalculateSequencePackets(uint16_t data_len)
+// Output buffer must be large enough to hold INIT + CONT packets
+size_t ctaphid_construct_packets(uint8_t* payload, uint16_t payload_len, uint32_t cid, uint8_t cmd, uint8_t* out_buf)
 {
-    if(data_len <= PKT_LEN_FOR_INIT_ONLY)
-    {
-        LOG_DBG("Payload is only %d bytes. Requires only INIT Packet", data_len);
-        return 0;
-    }
-    else if(data_len > PKT_LEN_FOR_INIT_ONLY && data_len <= PKT_MAX_PAYLOAD_LEN)
-    {
-        LOG_DBG("Payload is only %d bytes. Requires INIT and CONT packets", data_len);
-        uint8_t counter;
-        data_len = data_len - 57;
-        if(data_len % 59 == 0)
-        {
-            counter = data_len / 59;
-            LOG_DBG("Requires %d Continuation Packets", counter);
-            return counter;
-        }
-        else
-        {
-            counter = (data_len / 59) + 1;
-            LOG_DBG("Requires %d Continuation Packets", counter);
-            return counter;
-        }
-    }
-}
-ctaphid_status_t ctaphid_msg_deconstructor(uint8_t* response, uint16_t response_len)
-{
-    if(response == NULL)
-    {
-        LOG_ERR("Received NULL Report");
-        return CTAPHID_ERROR_INVALID_INPUT;
-    }
+    size_t total_packets = 0;
+    size_t offset = 0;
 
-    uint8_t packet_count = 0;
-    uint8_t cont_packet_payload_len = 0;
-    static ctaphid_resp_session_t resp_session = {0};
-    uint8_t packet_array[PKT_SIZE_DEFAULT] = {0};
+    // --- INIT Packet ---
+    uint8_t* init_pkt = out_buf;
+    init_pkt[0] = (cid >> 24) & 0xFF;
+    init_pkt[1] = (cid >> 16) & 0xFF;
+    init_pkt[2] = (cid >> 8)  & 0xFF;
+    init_pkt[3] = (cid)       & 0xFF;
 
-    memcpy(&resp_session.channel_id, &active_cid, CID_LEN);
-    resp_session.cmd = active_cmd;
-    resp_session.total_len = response_len;
-    resp_session.seq = CalculateSequencePackets(response_len);
+    init_pkt[4] = 0x80 | (cmd & 0x7F);  // Ensure MSB is set for INIT CMD
+    init_pkt[5] = (payload_len >> 8) & 0xFF;  // BCNTH
+    init_pkt[6] = payload_len & 0xFF;         // BCNTL
 
+    size_t init_data_len = (payload_len > INIT_PAYLOAD_MAX) ? INIT_PAYLOAD_MAX : payload_len;
+    memcpy(&init_pkt[7], payload, init_data_len);
+    offset += PACKET_SIZE;
+    total_packets++;
 
-    // Sending the INIT Packet
-    memcpy(&packet_array, &resp_session.channel_id, CID_LEN);
-    packet_array[INIT_CMD_POS] = resp_session.cmd;
-    packet_array[INIT_BCNTH_POS] = (resp_session.total_len & 0xFF00) <<8;
-    packet_array[INIT_BCNTL_POS] = (resp_session.total_len & 0xFF);
-    if(seq == 0)
+    size_t remaining = payload_len - init_data_len;
+    size_t payload_offset = init_data_len;
+
+    // --- CONT Packets ---
+    uint8_t seq = 0;
+
+    while (remaining > 0) 
     {
-        memcpy(&packet_array, &response, response_len);
-        resp_session.sent_len = response_len;
-    }
-    else
-    {
-        memcpy(&packet_array, &response, INIT_DATA_MAX_LEN);
-        resp_session.sent_len = INIT_DATA_MAX_LEN;
+        uint8_t* cont_pkt = out_buf + offset;
+
+        cont_pkt[0] = (cid >> 24) & 0xFF;
+        cont_pkt[1] = (cid >> 16) & 0xFF;
+        cont_pkt[2] = (cid >> 8)  & 0xFF;
+        cont_pkt[3] = (cid)       & 0xFF;
+
+        cont_pkt[4] = seq++;
+
+        size_t chunk = (remaining > CONT_PAYLOAD_MAX) ? CONT_PAYLOAD_MAX : remaining;
+        memcpy(&cont_pkt[5], &payload[payload_offset], chunk);
+
+        payload_offset += chunk;
+        remaining -= chunk;
+        offset += PACKET_SIZE;
+        total_packets++;
     }
 
-    // **************************
-    // ToDo: Send the INIT Packet
-    // **************************
-
-    LOG_DBG("Send INIT Packet");
-
-    resp_session.initialized = true;
-    cont_packet_payload_len = response_len - resp_session.sent_len;
-
-    // Sending the CONT Packets
-    if(seq != 0)
-    {
-        for(int seq_count = 0; seq_count < resp_session.seq; seq_count++)
-        {
-            memset(packet_array, 0, sizeof(packet_array));
-            memcpy(&packet_array, &resp_session.channel_id, CID_LEN);
-            packet_array[CONT_SEQ_POS] = seq_count;
-            if(cont_packet_payload_len < CONT_DATA_MAX_LEN)
-            {
-                memcpy(&packet_array, &response, cont_packet_payload_len);
-                resp_session.sent_len += cont_packet_payload_len;
-            }
-            else
-            {
-                memcpy(&packet_array, &response, CONT_DATA_MAX_LEN);
-                resp_session.sent_len += CONT_DATA_MAX_LEN;
-            }
-            
-            // **************************
-            // ToDo: Send the CONT Packet
-            // **************************
-
-            cont_packet_payload_len = response_len - resp_session.sent_len;
-        }
-
-        LOG_DBG("Send CONT Packets");
-    }
-
-    LOG_DBG("Send out CTAPHID Message");
-
+    return total_packets;  // Number of 64-byte packets written to out_buf
 }
