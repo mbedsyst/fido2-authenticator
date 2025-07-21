@@ -43,3 +43,24 @@
         * Copy 59 byte of data from the payload referenced by 'data'
         * Call the ctx.transport->send() to send out the CONT packets
     * Return status (to be checked)
+
+    /*
+    * Retrieve and Store the Channel ID
+    * Check if INIT
+        * Check if CMD is CANCEL
+            * Process CANCEL
+        * Check if CMD is KEEPALIVE
+            * Process KEEPALIVE
+        * Check if CMD is INIT
+            * Check if Channel ID = 0xFFFFFFFF
+                * Process INIT_NEW_CID
+            * Check if Channel ID = active_CID
+                * Process INIT_SAME_CID
+    * Retrieve Payload Length
+    * Set total_len, received_len
+    * Calculate and set total_packet_count as static
+    * Copy Report into Message Buffer
+    * Update received_len and received_packet_count
+    * Check if received_len = expected_len
+        * Set FSM State to PROCESSING
+    */

@@ -5,6 +5,8 @@
         "stdint.h": "c",
         "ctaphid_reconstructor.h": "c",
         "ctaphid.h": "c",
-        "stddef.h": "c"
+        "stddef.h": "c",
+        "compare": "c",
+        "stdbool.h": "c"
     }
 }

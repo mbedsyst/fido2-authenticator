@@ -58,6 +58,12 @@
 #define PKT_SEQ_COUNT           128
 #define PKT_MAX_PAYLOAD_LEN     7069
 
+// Message Related Macro Definitions
+#define MSG_MAX_LEN             8256
+
+// Channel ID Macro Definitions
+#define BROADCAST_CID           0xFFFFFFFF
+
 typedef enum
 {
     CTAPHID_OK = 0,
