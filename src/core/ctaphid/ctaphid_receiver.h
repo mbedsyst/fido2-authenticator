@@ -16,8 +16,10 @@
  * stores it into a buffer that can be used to reconstruct the CTAPHID message 
  * by parsing the INIT and CONT packets. 
  * 
+ * @param[in]  ctx   Pointer to the Application Context structure
  * @param[in]  report   Pointer to the received 64-byte USB HID report.
+ * @param[in]  report   Size of valid data read from Endpoint Buffer
  */
-void ctaphid_receive_packet(uint8_t* report);
+void ctaphid_receive_packet(app_ctx_t *ctx, uint8_t *report, uint8_t len);
 
 #endif
