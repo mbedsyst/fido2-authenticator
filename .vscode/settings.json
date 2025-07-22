@@ -10,6 +10,7 @@
         "stdbool.h": "c",
         "ctaphid_receiver.h": "c",
         "event_queue.h": "c",
-        "app_events.h": "c"
+        "app_events.h": "c",
+        "app_ctx.h": "c"
     }
 }

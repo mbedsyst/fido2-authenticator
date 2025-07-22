@@ -19,12 +19,12 @@
  * message by parsing INIT and CONT packets. Once the full payload is reconstructed, 
  * it may be forwarded to the dispatcher.
  *
- * @param[in]  report   Pointer to the received 64-byte HID report.
+ * @param[in]  ctx   Pointer to the Application Context structure.
  *
  * @return Status of the reconstruction process.
  *         - CTAPHID_OK on success.
  *         - Non-zero value on error
  */
-ctaphid_status_t ctaphid_msg_reconstructor(uint8_t* message_buffer);
+ctaphid_status_t ctaphid_payload_reconstructor(uint8_t* message_buffer);
 
 #endif
