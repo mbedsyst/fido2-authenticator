@@ -1,6 +1,6 @@
 /**
- * @file    ctaphid_dispatcher.c
- * @brief   Handles command dispatching for CTAPHID Commands
+ * @file    ctaphid_handler.c
+ * @brief   Handlers for different CTAPHID Commands
  * 
  * This module is responsible for calling the respective Command
  * Dispatcher based on the CTAPHID Command
@@ -17,7 +17,7 @@
 #include "app_ctx.h"
 #include "event_queue.h"
 #include "ctaphid.h"
-#include "ctaphid_dispatcher.h"
+#include "ctaphid_handler.h"
 
 LOG_MODULE_REGISTER(ctaphid_dispatcher);
 
@@ -30,11 +30,8 @@ ctaphid_status_t ctaphid_cmd_msg(app_ctx_t *ctx)
     }
 
     // Setup the Error Response
-    ctx->request_cmd = CTAPHID_ERROR;
-    ctx->response_payload_len = 1;
-    ctx->response_payload[0] = ERR_INVALID_CMD;
-    event_queue_push(EVENT_PROCESSING_DONE);
-
+    LOG_ERR("Device does not support U2F Processing");
+    ctaphid_cmd_error(ctx, ERR_INVALID_CMD);
     return CTAPHID_OK;
 }
 
@@ -71,6 +68,7 @@ ctaphid_status_t ctaphid_cmd_ping(app_ctx_t *ctx)
     // Setup the Ping Response
     ctx->response_payload_len = ctx->request_payload_len;
     memcpy(ctx->response_payload, ctx->request_payload, ctx->response_payload_len);
+    
     event_queue_push(EVENT_PROCESSING_DONE);
 
     return CTAPHID_OK;
@@ -87,15 +85,20 @@ ctaphid_status_t ctaphid_cmd_cancel(ctaphid_req_session_t *session)
     // ToDo: Write the CANCEL Command Logic
 }
 
-ctaphid_status_t ctaphid_cmd_error(ctaphid_req_session_t *session)
+void ctaphid_cmd_error(app_ctx_t *ctx, uint8_t error_code)
 {
-    if(session == NULL)
+    if(error_code == 0)
     {
-        LOG_ERR("Received NULL Structure");
+        LOG_ERR("Received Invalid Error Code");
         return CTAPHID_ERROR_INVALID_INPUT;
     }
     
-    // ToDo: Write the ERROR Command Logic
+    // Setup Response Frame
+    ctx->request_cmd = CTAPHID_ERROR;
+    ctx->response_payload_len = 1;
+    ctx->response_payload = error_code;
+
+    event_queue_push(EVENT_PROCESSING_DONE);
 }
 
 ctaphid_status_t ctaphid_cmd_keepalive()

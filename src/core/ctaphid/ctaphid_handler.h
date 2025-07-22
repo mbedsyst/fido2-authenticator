@@ -6,10 +6,11 @@
  * the CTAPHID Message Dispatcher
  */
 
-#ifndef CORE_CTAPHID_DISPATCHER_H_
-#define CORE_CTAPHID_DISPATCHER_H_
+#ifndef CORE_CTAPHID_HANDLER_H_
+#define CORE_CTAPHID_HANDLER_H_
 
 #include "app_ctx.h"
+#include "ctaphid.h"
 
 ctaphid_status_t ctaphid_cmd_msg(app_ctx_t *ctx);
 ctaphid_status_t ctaphid_cmd_cbor(app_ctx_t *ctx);
