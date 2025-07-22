@@ -9,9 +9,10 @@ LOG_MODULE_REGISTER(app_ctx);
 
 app_ctx_t ctx;
 
-static void receive_report(const uint8_t *data, size_t len)
+void app_receive_report(const uint8_t *data, size_t len)
 {
     LOG_INF("Received OUT Report");
+    ctaphid_receive_packet(&ctx, data, len);
 }
 
 void app_ctx_init(void)
@@ -25,7 +26,7 @@ void app_ctx_init(void)
     ctx.button->init();
 
     ctx.transport = &usb_transport_if;
-    ctx.transport->init(receive_report);
+    ctx.transport->init(app_receive_report);
 
     // Clear all buffers and metadata
     memset(ctx.request_message, 0, sizeof(ctx.request_message));

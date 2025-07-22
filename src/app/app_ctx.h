@@ -16,21 +16,18 @@ typedef struct
     const transport_if_t *transport;
 
     // Request & Response Buffers
-    uint8_t request_message[MAX_MESSAGE_SIZE];      // INIT + CONT
-    uint8_t request_payload[MAX_PAYLOAD_SIZE];      // Extracted CBOR payload
-    uint8_t response_payload[MAX_PAYLOAD_SIZE]; // CBOR-encoded output
-    uint8_t response_message[MAX_MESSAGE_SIZE]; // INIT + CONT fragments
+    uint8_t request_message[MAX_MESSAGE_SIZE];      // Request INIT and CONT packets
+    uint8_t request_payload[MAX_PAYLOAD_SIZE];      // Extracted CBOR input payload
+    uint8_t response_payload[MAX_PAYLOAD_SIZE];     // Processed CBOR output payload
+    uint8_t response_message[MAX_MESSAGE_SIZE];     // Response INIT and CONT packets
 
-    // Metadata
-    uint32_t channel_id;
-    uint8_t  cmd;
-    uint16_t payload_len;
+    // Transaction Metadata
+    uint32_t request_channel_id;
+    uint8_t  request_cmd;
+    uint16_t request_message_len;
+    uint16_t request_payload_len;
     uint16_t response_payload_len;
     uint16_t response_message_len;
-
-    // Optionally
-    uint16_t bytes_received;
-    uint16_t bytes_expected;
 
 } app_ctx_t;
 

@@ -7,6 +7,9 @@
         "ctaphid.h": "c",
         "stddef.h": "c",
         "compare": "c",
-        "stdbool.h": "c"
+        "stdbool.h": "c",
+        "ctaphid_receiver.h": "c",
+        "event_queue.h": "c",
+        "app_events.h": "c"
     }
 }
