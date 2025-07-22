@@ -9,12 +9,14 @@
 #ifndef CORE_CTAPHID_DISPATCHER_H_
 #define CORE_CTAPHID_DISPATCHER_H_
 
-ctaphid_status_t ctaphid_cmd_msg(ctaphid_req_session_t *session);
-ctaphid_status_t ctaphid_cmd_cbor(ctaphid_req_session_t *session);
-ctaphid_status_t ctaphid_cmd_init(ctaphid_req_session_t *session);
-ctaphid_status_t ctaphid_cmd_ping(ctaphid_req_session_t *session);
-ctaphid_status_t ctaphid_cmd_cancel(ctaphid_req_session_t *session);
-ctaphid_status_t ctaphid_cmd_error(ctaphid_req_session_t *session);
-ctaphid_status_t ctaphid_cmd_keepalive(ctaphid_req_session_t *session);
+#include "app_ctx.h"
+
+ctaphid_status_t ctaphid_cmd_msg(app_ctx_t *ctx);
+ctaphid_status_t ctaphid_cmd_cbor(app_ctx_t *ctx);
+ctaphid_status_t ctaphid_cmd_init(app_ctx_t *ctx);
+ctaphid_status_t ctaphid_cmd_ping(app_ctx_t *ctx);
+ctaphid_status_t ctaphid_cmd_cancel(app_ctx_t *ctx);
+ctaphid_status_t ctaphid_cmd_error(app_ctx_t *ctx);
+ctaphid_status_t ctaphid_cmd_keepalive(app_ctx_t *ctx);
 
 #endif

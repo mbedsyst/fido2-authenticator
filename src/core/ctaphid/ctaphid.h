@@ -25,6 +25,17 @@
 #define CTAPHID_WINK            0x08
 #define CTAPHID_LOCK            0x04
 
+// CTAPHID Error Codes
+#define ERR_INVALID_CMD	        0x01
+#define ERR_INVALID_PAR	        0x02
+#define ERR_INVALID_LEN	        0x03
+#define ERR_INVALID_SEQ	        0x04
+#define ERR_MSG_TIMEOUT	        0x05
+#define ERR_CHANNEL_BUSY	    0x06
+#define ERR_LOCK_REQUIRED	    0x0A
+#define ERR_INVALID_CHANNEL	    0x0B
+#define ERR_OTHER	            0x7F
+
 // Packet Independent Macro definitions
 #define CID_POS                 0
 #define CID_LEN                 4
