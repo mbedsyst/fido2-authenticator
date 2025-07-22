@@ -26,4 +26,20 @@ void app_ctx_init(void)
 
     ctx.transport = &usb_transport_if;
     ctx.transport->init(receive_report);
+
+    // Clear all buffers and metadata
+    memset(ctx.request_message, 0, sizeof(ctx.request_message));
+    memset(ctx.request_payload, 0, sizeof(ctx.request_payload));
+    memset(ctx.response_payload, 0, sizeof(ctx.response_payload));
+    memset(ctx.response_message, 0, sizeof(ctx.response_message));
+
+    ctx.channel_id = 0;
+    ctx.cmd = 0;
+    ctx.payload_len = 0;
+    ctx.response_payload_len = 0;
+    ctx.response_message_len = 0;
+    ctx.bytes_received = 0;
+    ctx.bytes_expected = 0;
+
+    LOG_INF("Application Context Initialized");
 }
