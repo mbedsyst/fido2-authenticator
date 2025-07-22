@@ -25,7 +25,7 @@ ctaphid_status_t ctaphid_cmd_msg(app_ctx_t *ctx)
 {
     if(!ctx)
     {
-        LOG_ERR("Received NULL Structure");
+        LOG_ERR("Received Invalid Input");
         return CTAPHID_ERROR_INVALID_INPUT;
     }
 
@@ -64,11 +64,16 @@ ctaphid_status_t ctaphid_cmd_ping(app_ctx_t *ctx)
 {
     if(!ctx)
     {
-        LOG_ERR("Received NULL Structure");
+        LOG_ERR("Received Invalid Input");
         return CTAPHID_ERROR_INVALID_INPUT;
     }
-    
-    // ToDo: Write the PING Command Logic
+
+    // Setup the Ping Response
+    ctx->response_payload_len = ctx->request_payload_len;
+    memcpy(ctx->response_payload, ctx->request_payload, ctx->response_payload_len);
+    event_queue_push(EVENT_PROCESSING_DONE);
+
+    return CTAPHID_OK;
 }
 
 ctaphid_status_t ctaphid_cmd_cancel(ctaphid_req_session_t *session)
