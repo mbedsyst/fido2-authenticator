@@ -19,12 +19,12 @@
   * CTAPHID message by fragmenting into INIT and CONT packets. Once the full 
   * message is deconstructed, it will be forwarded to the Transport.
   *
-  * @param[in]  response   Pointer to the received CTAP2 response payload.
+  * @param[in]  ctx   Pointer to the Application Context structure.
   *
   * @return Status of the deconstruction process.
   *         - CTAPHID_OK on success.
   *         - Non-zero value on error
   */
- size_t ctaphid_construct_packets(uint8_t* payload, uint16_t payload_len, uint32_t cid, uint8_t cmd, uint8_t* out_buf);
+ctaphid_status_t ctaphid_payload_deconstructor(app_ctx_t *ctx);
  
  #endif

@@ -14,40 +14,38 @@
 
 #include <zephyr/logging/log.h>
 
+#include "app_ctx.h"
+#include "event_queue.h"
 #include "ctaphid.h"
 #include "ctaphid_deconstructor.h"
 
 LOG_MODULE_REGISTER(ctaphid_deconstructor);
 
-extern uint8_t active_cid[CID_LEN];
-extern uint8_t active_cmd;
-
-// Output buffer must be large enough to hold INIT + CONT packets
-size_t ctaphid_construct_packets(uint8_t* payload, uint16_t payload_len, uint32_t cid, uint8_t cmd, uint8_t* out_buf)
+ctaphid_payload_deconstructor(app_ctx_t *ctx)
 {
     size_t total_packets = 0;
     size_t offset = 0;
 
-    // --- INIT Packet ---
-    uint8_t* init_pkt = out_buf;
-    init_pkt[0] = (cid >> 24) & 0xFF;
-    init_pkt[1] = (cid >> 16) & 0xFF;
-    init_pkt[2] = (cid >> 8)  & 0xFF;
-    init_pkt[3] = (cid)       & 0xFF;
-
-    init_pkt[4] = 0x80 | (cmd & 0x7F);  // Ensure MSB is set for INIT CMD
-    init_pkt[5] = (payload_len >> 8) & 0xFF;  // BCNTH
-    init_pkt[6] = payload_len & 0xFF;         // BCNTL
-
-    size_t init_data_len = (payload_len > INIT_PAYLOAD_MAX) ? INIT_PAYLOAD_MAX : payload_len;
-    memcpy(&init_pkt[7], payload, init_data_len);
-    offset += PACKET_SIZE;
+    /*** Setting up the INIT Packet ***/
+    // Setting Channel ID in the INIT Packet
+    ctx->response_message[CID_POS + 0] = (ctx->request_channel_id >> 24) & 0xFF;
+    ctx->response_message[CID_POS + 1] = (ctx->request_channel_id >> 16) & 0xFF;
+    ctx->response_message[CID_POS + 2] = (ctx->request_channel_id >> 8) & 0xFF;
+    ctx->response_message[CID_POS + 3] = (ctx->request_channel_id) & 0xFF;
+    // Setting CMD, BCNTH and BCNTL in the INIT Packet
+    ctx->response_message[4] = 0x80 | (ctx->request_cmd & 0x7F);            // Ensure MSB is set for INIT CMD
+    ctx->response_message[5] = (ctx->response_payload_len >> 8) & 0xFF;     // BCNTH
+    ctx->response_message[6] = (ctx->response_payload_len) & 0xFF;          // BCNTL
+    // Copying valid data for INIT Packet from Response Payload buffer
+    uint8_t init_data_len = (ctx->response_payload_len > INIT_DATA_MAX_LEN) ? INIT_DATA_MAX_LEN : ctx->response_payload_len;
+    memcpy(&ctx->response_message[INIT_DATA_POS], ctx->response_payload, init_data_len);
+    offset += PKT_SIZE_DEFAULT;
     total_packets++;
 
-    size_t remaining = payload_len - init_data_len;
+    size_t remaining = ctx->response_payload_len - init_data_len;
     size_t payload_offset = init_data_len;
 
-    // --- CONT Packets ---
+    // Setting up the CONT Packets
     uint8_t seq = 0;
 
     while (remaining > 0) 
@@ -61,14 +59,15 @@ size_t ctaphid_construct_packets(uint8_t* payload, uint16_t payload_len, uint32_
 
         cont_pkt[4] = seq++;
 
-        size_t chunk = (remaining > CONT_PAYLOAD_MAX) ? CONT_PAYLOAD_MAX : remaining;
+        size_t chunk = (remaining > CONT_DATA_MAX_LEN) ? CONT_DATA_MAX_LEN : remaining;
         memcpy(&cont_pkt[5], &payload[payload_offset], chunk);
 
         payload_offset += chunk;
         remaining -= chunk;
-        offset += PACKET_SIZE;
+        offset += PKT_SIZE_DEFAULT;
         total_packets++;
     }
 
-    return total_packets;  // Number of 64-byte packets written to out_buf
+    LOG_DBG("Deconstructed Response Payload into Message Buffer.");
+    event_queue_push(EVENT_PAYLOAD_DECONSTRUCTED);
 }
