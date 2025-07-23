@@ -50,7 +50,7 @@ bool handle_state_processing(app_event_t event)
     
 }
 
-bool handle_state_deconstructing(app_event_t event)
+bool DECONSTRUCTING_state_handler(app_ctx_t *ctx)
 {
     LOG_INF("Current State: DECONSTRUCTING");
     ctx->device_state = STATE_DECONSTRUCTING;
@@ -68,9 +68,27 @@ bool handle_state_deconstructing(app_event_t event)
     }
 }
 
-bool handle_state_responding(app_event_t event)
+bool RESPONDING_state_handler(app_ctx_t *ctx)
 {
-    
+    LOG_INF("Current State: RESPONDING");
+    ctx->device_state = STATE_RESPONDING;
+    ctx->led->set(LED_STATUS, LED_BLINK_FAST);
+
+    int ret = 0;
+    int current_packet_count;
+
+    for(current_packet_count = 0; current_packet_count < ctx->response_packet_count; current_packet_count++)
+    {
+        // ToDo: Fix the buffer positioning and size of bytes to send over
+        ret = ctx->transport->send(ctx->response_message[current_packet_count * 64], 64);
+        if(ret > 0)
+        {
+            LOG_ERR("Response failed with Error Code: %d", ret);
+            // ToDo: Match Return Error Code to CTAPHID Specification
+            ctx->error_code = ret;
+            event_queue_push(EVENT_ERROR_OCCURED);     
+        }
+    }
 }
 
 bool handle_state_error(app_event_t event)

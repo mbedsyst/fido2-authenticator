@@ -32,8 +32,10 @@ typedef struct
     uint8_t  request_cmd;
     uint16_t request_message_len;
     uint16_t request_payload_len;
+    uint8_t request_packet_count;
     uint16_t response_payload_len;
     uint16_t response_message_len;
+    uint8_t response_packet_count;
 
 } app_ctx_t;
 
