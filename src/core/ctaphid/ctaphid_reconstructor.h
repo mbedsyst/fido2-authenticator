@@ -12,6 +12,8 @@
 #include <stdbool.h>
 #include <stdint.h>
 
+#include "app_ctx.h"
+
 /**
  * @brief Reconstructs a CTAPHID message from the Message Buffer.
  *
@@ -25,6 +27,6 @@
  *         - CTAPHID_OK on success.
  *         - Non-zero value on error
  */
-ctaphid_status_t ctaphid_payload_reconstructor(uint8_t* message_buffer);
+ctaphid_status_t ctaphid_payload_reconstructor(app_ctx_t *ctx);
 
 #endif

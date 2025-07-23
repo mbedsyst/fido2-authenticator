@@ -24,6 +24,7 @@ typedef struct
 
     // State Machine Information
     app_state_t device_state;
+    uint8_t error_code;
     bool initialized;
 
     // Transaction Metadata
