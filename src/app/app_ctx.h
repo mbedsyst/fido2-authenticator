@@ -4,6 +4,7 @@
 #include "led_if.h"
 #include "button_if.h"
 #include "transport_if.h"
+#include "state_machine.h"
 
 #define MAX_MESSAGE_SIZE     8256
 #define MAX_PAYLOAD_SIZE     7609
@@ -20,6 +21,10 @@ typedef struct
     uint8_t request_payload[MAX_PAYLOAD_SIZE];      // Extracted CBOR input payload
     uint8_t response_payload[MAX_PAYLOAD_SIZE];     // Processed CBOR output payload
     uint8_t response_message[MAX_MESSAGE_SIZE];     // Response INIT and CONT packets
+
+    // State Machine Information
+    app_state_t device_state;
+    bool initialized;
 
     // Transaction Metadata
     uint32_t request_channel_id;

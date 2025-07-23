@@ -34,13 +34,15 @@ void app_ctx_init(void)
     memset(ctx.response_payload, 0, sizeof(ctx.response_payload));
     memset(ctx.response_message, 0, sizeof(ctx.response_message));
 
-    ctx.channel_id = 0;
-    ctx.cmd = 0;
-    ctx.payload_len = 0;
+    ctx.device_state = STATE_IDLE;
+    ctx.initialized = false;
+
+    ctx.request_channel_id = 0;
+    ctx.request_cmd = 0;
+    ctx.request_message_len = 0;
+    ctx.request_payload_len = 0;
     ctx.response_payload_len = 0;
     ctx.response_message_len = 0;
-    ctx.bytes_received = 0;
-    ctx.bytes_expected = 0;
 
     LOG_INF("Application Context Initialized");
 }

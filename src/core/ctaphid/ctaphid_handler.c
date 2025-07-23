@@ -74,15 +74,17 @@ ctaphid_status_t ctaphid_cmd_ping(app_ctx_t *ctx)
     return CTAPHID_OK;
 }
 
-ctaphid_status_t ctaphid_cmd_cancel(ctaphid_req_session_t *session)
+void ctaphid_cmd_cancel(app_ctx_t *ctx)
 {
-    if(session == NULL)
+    if(!ctx)
     {
-        LOG_ERR("Received NULL Structure");
+        LOG_ERR("Received Invalid Input");
         return CTAPHID_ERROR_INVALID_INPUT;
     }
     
-    // ToDo: Write the CANCEL Command Logic
+    /**
+     * 
+     */
 }
 
 void ctaphid_cmd_error(app_ctx_t *ctx, uint8_t error_code)
