@@ -31,8 +31,7 @@ ctaphid_status_t ctaphid_cmd_msg(app_ctx_t *ctx)
 
     // Setup the Error Response
     LOG_ERR("Device does not support U2F Processing");
-    ctaphid_cmd_error(ctx, ERR_INVALID_CMD);
-    return CTAPHID_OK;
+    return CTAPHID_ERROR_INVALID_CMD;
 }
 
 ctaphid_status_t ctaphid_cmd_cbor(ctaphid_req_session_t *session)

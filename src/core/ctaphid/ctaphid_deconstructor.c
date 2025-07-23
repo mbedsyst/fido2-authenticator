@@ -21,10 +21,16 @@
 
 LOG_MODULE_REGISTER(ctaphid_deconstructor);
 
-ctaphid_payload_deconstructor(app_ctx_t *ctx)
+ctaphid_status_t ctaphid_payload_deconstructor(app_ctx_t *ctx)
 {
     size_t total_packets = 0;
     size_t offset = 0;
+
+    if(ctx->response_payload_len == 0 || ctx->response_payload_len > MAX_PAYLOAD_SIZE)
+    {
+        LOG_ERR("Invalid Payload Length");
+        return CTAPHID_ERROR_INVALID_LEN;
+    }
 
     /*** Setting up the INIT Packet ***/
     // Setting Channel ID in the INIT Packet
@@ -70,4 +76,6 @@ ctaphid_payload_deconstructor(app_ctx_t *ctx)
 
     LOG_DBG("Deconstructed Response Payload into Message Buffer.");
     event_queue_push(EVENT_PAYLOAD_DECONSTRUCTED);
+
+    return CTAPHID_OK;
 }

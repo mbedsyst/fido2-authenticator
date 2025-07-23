@@ -30,7 +30,13 @@ ctaphid_status_t ctaphid_payload_reconstructor(app_ctx_t *ctx)
         LOG_ERR("Received invalid context");
         return CTAPHID_ERROR_INVALID_INPUT;
     }
-    
+
+    if(ctx->request_payload_len == 0 || ctx->request_payload_len > MAX_PAYLOAD_SIZE)
+    {
+        LOG_ERR("Invalid Payload Length");
+        return CTAPHID_ERROR_INVALID_LEN;
+    }
+
     uint16_t data_copied = 0;
 
     // Calculate Size of Payload to copy for INIT Packet

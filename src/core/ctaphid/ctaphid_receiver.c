@@ -38,10 +38,6 @@ uint16_t CalculateMessageSize(uint16_t total_payload_len)
             return (cont_packet_count * (5 + CONT_DATA_MAX_LEN) + (last_packet_payload_len + 5) + (1 * PKT_SIZE_DEFAULT));
         }
     }
-    else
-    {
-        // Handle Invalid Payload Length
-    }
 }
 
 uint8_t CalculatePacketCount(uint16_t payload_len)
@@ -65,13 +61,9 @@ uint8_t CalculatePacketCount(uint16_t payload_len)
             return seq_count;
         }
     }
-    else
-    {
-        // Handle Invalid Payload Length
-    }
 }
 
-void ctaphid_receive_packet(app_ctx_t *ctx, uint8_t *report, uint8_t len)
+ctaphid_status_t ctaphid_receive_packet(app_ctx_t *ctx, uint8_t *report, uint8_t len)
 {
     uint8_t channel_id[CID_LEN] = {0};
     uint8_t broadcast_cid[CID_LEN] = {0xFF, 0xFF, 0xFF, 0xFF};
@@ -113,6 +105,12 @@ void ctaphid_receive_packet(app_ctx_t *ctx, uint8_t *report, uint8_t len)
         ctx->request_payload_len = ((report[INIT_BCNTH_POS]) << 8) | (report[INIT_BCNTL_POS]);
     }
 
+    if(ctx->request_payload_len == 0 || ctx->request_payload_len > MAX_PAYLOAD_SIZE)
+    {
+        LOG_ERR("Invalid Payload Length");
+        return CTAPHID_ERROR_INVALID_LEN;
+    }
+
     ctx->request_message_len = CalculateMessageSize(ctx->request_payload_len);
     total_packet_count = CalculatePacketCount(ctx->request_payload_len);
     total_len = ctx->request_message_len;
@@ -129,5 +127,7 @@ void ctaphid_receive_packet(app_ctx_t *ctx, uint8_t *report, uint8_t len)
         LOG_DBG("Message Received completely. ");
         event_queue_push(EVENT_MESSAGE_RECEIVED);
     }
+
+    return CTAPHID_OK;
 }
 

@@ -25,17 +25,6 @@
 #define CTAPHID_WINK            0x08
 #define CTAPHID_LOCK            0x04
 
-// CTAPHID Error Codes
-#define ERR_INVALID_CMD	        0x01
-#define ERR_INVALID_PAR	        0x02
-#define ERR_INVALID_LEN	        0x03
-#define ERR_INVALID_SEQ	        0x04
-#define ERR_MSG_TIMEOUT	        0x05
-#define ERR_CHANNEL_BUSY	    0x06
-#define ERR_LOCK_REQUIRED	    0x0A
-#define ERR_INVALID_CHANNEL	    0x0B
-#define ERR_OTHER	            0x7F
-
 // Packet Independent Macro definitions
 #define CID_POS                 0
 #define CID_LEN                 4
@@ -73,9 +62,6 @@
 #define MAX_PAYLOAD_LEN         7069
 #define MAX_MESSAGE_LEN         8256
 
-// Channel ID Macro Definitions
-#define BROADCAST_CID           0xFFFFFFFF
-
 typedef enum
 {
     CTAPHID_OK = 0,
@@ -84,29 +70,10 @@ typedef enum
     CTAPHID_ERROR_INVALID_CID,
     CTAPHID_ERROR_INVALID_CMD,
     CTAPHID_ERROR_INVALID_SEQ,
-    CTAPHID_ERROR_LEN_MISMATCH,
+    CTAPHID_ERROR_INVALID_LEN,
+    CTAPHID_ERROR_TIMEOUT,
+    CTAPHID_ERROR_CHANNEL_BUSY,
+    CTAPHID_ERROR_OTHER,
 } ctaphid_status_t;
-
-typedef struct 
-{
-    uint8_t channel_id[CID_LEN];
-    uint8_t cmd;
-    uint8_t data[PKT_MAX_PAYLOAD_LEN];
-    uint16_t expected_len;
-    uint16_t received_len;
-    uint8_t seq;
-    bool initialized;
-} ctaphid_req_session_t;
-
-typedef struct 
-{
-    uint8_t channel_id[CID_LEN];     // From session
-    uint8_t cmd;               // Response command (0x80 | original cmd)
-    const uint8_t *data;       // Pointer to full payload
-    uint16_t total_len;        // Total payload length
-    uint16_t sent_len;         // Number of bytes already sent
-    uint8_t seq;               // Current sequence number for CONT
-    bool initialized;          // Transmission in progress
-} ctaphid_resp_session_t;
 
 #endif
