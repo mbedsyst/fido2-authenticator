@@ -1,9 +1,9 @@
 /**
  * @file    ctaphid_reconstructor.c
- * @brief   Handles reassembly of CTAP2 Payload from INIT and CONT packets
+ * @brief   Handles Reconstruction of CTAPHID Payload from Request Message Buffer
  * 
- * This module is responsible for assembling INIT and CONT Packets
- * to form a complete Message in a CTAPHID Transaction
+ * This module is responsible for parsing the Request Message Packets
+ * to form the complete Request Payload in a CTAPHID Transaction.
  * 
  * @author  Zalman Ul Fariz
  * @date    July 2025
@@ -22,6 +22,45 @@
 
 LOG_MODULE_REGISTER(ctaphid_reconstructor);
 
+/*
+    SEQ field position in CONT Packets
+        4 | 1 | 1 | 1 | 57
+        4 | 1 | 59          - 68
+        4 | 1 | 59          - 132
+        4 | 1 | 59          - 196
+        4 | 1 | 59          - 260
+        4 | 1 | 59          - 324
+        4 | 1 | 59          - 388
+
+    If Total Packet Count (INIT + CONT) = 96 (1 -> 96)
+    SEQ Value varies from 0 -> 95
+*/
+
+static uint8_t packet_order_check(uint8_t *message, uint8_t total_packet_count)
+{
+    if(message_len == 0)
+    {
+        // ToDo: Handle Zero Message Length return status
+        return 255;
+    }
+
+    uint8_t current_seq_packet_count;
+    uint8_t current_seq_field_index;
+
+    for(current_seq_packet_count = 0; current_seq_packet_count < total_packet_count; current_seq_packet_count++)
+    {
+        current_seq_field_index = (PKT_SIZE_DEFAULT + CONT_SEQ_POS) + (current_seq_packet_count * PKT_SIZE_DEFAULT);
+        if(message[current_seq_field_index] != (current_seq_packet_count))
+        {
+            LOG_ERR("Message Buffer Order Check failed.");
+            return current_seq_packet_count;
+        }
+    }
+
+    LOG_DBG("Message Buffer Order Check passed");
+    return 0;
+}
+
 ctaphid_status_t ctaphid_payload_reconstructor(app_ctx_t *ctx)
 {
     // Check if Context is Valid
@@ -37,30 +76,45 @@ ctaphid_status_t ctaphid_payload_reconstructor(app_ctx_t *ctx)
         return CTAPHID_ERROR_INVALID_LEN;
     }
 
-    uint16_t data_copied = 0;
+    int ret = packet_order_check(ctx->request_message, ctx->request_packet_count);
+    if(ret)
+    {
+        // ToDo: Handle error message
+        LOG_ERR("");
+        return CTAPHID_ERROR_INVALID_LEN;
+    }
+
+    uint16_t payload_bytes_copied = 0;
 
     // Calculate Size of Payload to copy for INIT Packet
-    uint8_t init_payload_len = (ctx->request_payload_len < INIT_DATA_MAX_LEN) ? ctx->request_payload_len : INIT_DATA_MAX_LEN;
-    memcpy(ctx->request_payload, &ctx->request_message[INIT_DATA_POS], init_payload_len);
-    data_copied += init_payload_len;
+    uint8_t init_packet_payload_len = (ctx->request_payload_len < INIT_DATA_MAX_LEN) ? ctx->request_payload_len : INIT_DATA_MAX_LEN;
+    memcpy(ctx->request_payload, &ctx->request_message[INIT_DATA_POS], init_packet_payload_len);
+    payload_bytes_copied += init_packet_payload_len;
 
     // Calculate Size of Remaining Payload in CONT Packets
-    uint16_t data_remaining = ctx->request_payload_len - data_copied;
-    uint16_t cont_packet_index = 0;
+    uint16_t payload_bytes_remaining = ctx->request_payload_len - payload_bytes_copied;
+    uint8_t current_cont_packet_index = 0;
 
-    while (data_remaining > 0) 
+    while (payload_bytes_remaining > 0) 
     {
         // Calculate the offset in Request Message buffer to copy from
-        uint16_t cont_offset = PKT_SIZE_DEFAULT + cont_packet_index * PKT_SIZE_DEFAULT;
+        uint16_t cont_packet_offset_in_message = PKT_SIZE_DEFAULT + current_cont_packet_index * PKT_SIZE_DEFAULT;
         // Calculate the size of payload to copy from Message Buffer
-        uint16_t copy_len = (data_remaining < CONT_DATA_MAX_LEN) ? data_remaining : CONT_DATA_MAX_LEN;
+        uint16_t cont_packet_payload_len = (payload_bytes_remaining < CONT_DATA_MAX_LEN) ? payload_bytes_remaining : CONT_DATA_MAX_LEN;
         // Copy the CONT Packet Payload from Message Buffer into Payload Buffer
-        memcpy(ctx->request_payload + data_copied, &ctx->request_message[cont_offset + 5], copy_len);
-        data_copied += copy_len;
-        data_remaining -= copy_len;
-        cont_packet_index++;
+        memcpy(ctx->request_payload + payload_bytes_copied, &ctx->request_message[cont_packet_offset_in_message + CONT_DATA_POS], cont_packet_payload_len);
+        payload_bytes_copied += cont_packet_payload_len;
+        payload_bytes_remaining -= cont_packet_payload_len;
+        current_cont_packet_index++;
+    }
+
+    if(!(payload_bytes_remaining == 0 && payload_bytes_copied == ctx->request_payload_len))
+    {        
+        LOG_ERR("Payload Reconstruction Failed.");
+        return CTAPHID_ERROR_INVALID_LEN;
     }
 
     LOG_DBG("Request Payload reconstructed.");
     event_queue_push(EVENT_PAYLOAD_RECONSTRUCTED);
+
 }

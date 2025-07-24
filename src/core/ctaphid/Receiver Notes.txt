@@ -1,0 +1,71 @@
+ /* ctaphid_status_t ctaphid_receive_packet(app_ctx_t *ctx, uint8_t *report, uint8_t len)
+    * Retrieve CID
+    * Retrieve CMD
+    * Find type of Packet (INIT/CONT)
+    
+    * Check if Device is in IDLE state
+    
+        * Check if it is INIT && if command is INIT
+            * Copy retrieved CID to ctx->active_request_cid
+            * Copy retrieved CMD to ctx->request_cmd
+            * Set ctx->request_payload_len to 8
+            * Copy 8-byte Nonce to ctx->request_payload[]
+            * Push EVENT_RECONSTRUCTING_DONE to normal queue
+            * Return CTAPHID_OK
+        
+        * Check if it is INIT && if command is CANCEL
+            * Push EVENT_RESPONSE_DONE to normal queue
+            * Return CTAPHID_OK
+            
+        * Check if packet is an INIT packet with MSG/CBOR/PING Command
+			* Retrieve the Payload Length
+			* Copy the Payload Length into ctx->request_payload_len
+			* Calculate the Message Length
+			* Copy the Message Length into ctx->request_message_len
+			* Calculate the Packet Count
+			* Copy the Packet Count into ctx->request_packet_count
+			* Copy the payload from report into ctx->request_message[INIT_CID_POS]
+			* Increase the ctx->request_message_copied by copied bytes
+			* Push EVENT_RECEIVING_STARTED to normal queue
+			* Return CTAPHID_OK
+            
+        * If the packet is a CONT Packet
+            * Copy the retrieved CID to ctx->non_active_incoming_cid
+            * Copy the error code 'ERR_INVALID_PAR' to ctx->remapped_error_code
+            * Push EVENT_ERROR_HANDLE to fast responder queue
+            * Return CTAPHID_OK
+            
+    * If Device is not in IDLE state
+    
+        * Check if the retrieved CID is equal to ctx->active_request_cid
+        
+            * Check if packet is an INIT packet with INIT Command
+                * Copy the retrieved CID to ctx->non_active_incoming_cid
+                * Copy the error code 'ERR_CHANNEL_BUSY' to ctx->remapped_error_code
+                * Push EVENT_ERROR_HANDLE to fast responder queue
+                * Return CTAPHID_OK
+                
+            * Check if packet is an INIT packet with CANCEL Command
+                * Set Abort Request in ctx->abort_requested
+                * Push EVENT_PROCESS_CANCELLED to normal queue
+                * Return CTAPHID_OK
+                
+			* If the packet is a CONT packet
+                * Retrieve the Sequence Counter
+                * Copy the retrieved Sequence Counter into ctx->request_sequence_count
+                * Copy the payload from report into ctx->request_message[PKT_SIZE_DEFAULT * (ctx->request_sequence_count + 1)]
+                * Return CTAPHID_OK
+                
+        * If the retrieved CID is not equal to ctx->active_request_cid
+        
+            * Check if packet is an INIT packet with INIT/MSG/CBOR/PING/CANCEL Command
+                * Copy the retrieved CID to ctx->non_active_incoming_cid
+                * Copy the error code 'ERR_CHANNEL_BUSY' to ctx->remapped_error_code
+                * Push EVENT_ERROR_HANDLE to fast responder queue
+                * Return CTAPHID_OK
+                
+            * If the packet is a CONT Packet
+                * Copy the retrieved CID to ctx->non_active_incoming_cid
+                * Copy the error code 'ERR_INVALID_PAR' to ctx->remapped_error_code
+                * Push EVENT_ERROR_HANDLE to fast responder queue
+                * Return CTAPHID_OK

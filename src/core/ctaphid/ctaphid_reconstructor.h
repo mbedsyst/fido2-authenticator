@@ -3,27 +3,27 @@
  * @brief   Header for CTAPHID Reconstructor
  * 
  * This header includes the Public function header for
- * the CTAP2 Payload Reconstructor
+ * the CTAPHID Payload Reconstructor
  */
 
-#ifndef CORE_CTAPHID_RECONSTRUCTOR_H_
-#define CORE_CTAPHID_RECONSTRUCTOR_H_
+ #ifndef CORE_CTAPHID_RECONSTRUCTOR_H_
+ #define CORE_CTAPHID_RECONSTRUCTOR_H_
 
-#include <stdbool.h>
-#include <stdint.h>
+ #include <stdbool.h>
+ #include <stdint.h>
 
-#include "app_ctx.h"
+ #include "app_ctx.h"
 
 /**
- * @brief Reconstructs a CTAPHID message from the Message Buffer.
+ * @brief Reconstructs the CTAPHID Payload from the Request Message Buffer.
  *
- * This function takes the Message Buffer and reconstructs the complete CTAP2 payload 
- * message by parsing INIT and CONT packets. Once the full payload is reconstructed, 
- * it may be forwarded to the dispatcher.
+ * This function takes the Request Message Buffer and reconstructs the complete 
+ * CTAP2 payload by parsing the INIT and CONT packets. Once the full payload is 
+ * reconstructed, it may be forwarded to the CTAPHID dispatcher.
  *
  * @param[in]  ctx   Pointer to the Application Context structure.
  *
- * @return Status of the reconstruction process.
+ * @return Status of the Payload Reconstruction process.
  *         - CTAPHID_OK on success.
  *         - Non-zero value on error
  */

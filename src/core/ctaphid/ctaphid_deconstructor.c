@@ -2,8 +2,8 @@
  * @file    ctaphid_deconstructor.c
  * @brief   Handles fragmentation of CTAPHID Message into INIT and CONT packets
  * 
- * This module is responsible for fragmenting into INIT and 
- * CONT Packets to form a complete Message in a CTAPHID Transaction
+ * This module is responsible for fragmenting a Response Payload into INIT and 
+ * CONT Packets to form a complete Message in a CTAPHID Transaction.
  * 
  * @author  Zalman Ul Fariz
  * @date    July 2025

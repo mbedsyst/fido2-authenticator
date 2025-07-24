@@ -14,9 +14,7 @@
 
 ctaphid_status_t ctaphid_cmd_msg(app_ctx_t *ctx);
 ctaphid_status_t ctaphid_cmd_cbor(app_ctx_t *ctx);
-ctaphid_status_t ctaphid_cmd_init(app_ctx_t *ctx);
 ctaphid_status_t ctaphid_cmd_ping(app_ctx_t *ctx);
-ctaphid_status_t ctaphid_cmd_cancel(app_ctx_t *ctx);
 ctaphid_status_t ctaphid_cmd_error(app_ctx_t *ctx);
 ctaphid_status_t ctaphid_cmd_keepalive(app_ctx_t *ctx);
 

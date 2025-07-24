@@ -34,7 +34,7 @@ ctaphid_status_t ctaphid_cmd_msg(app_ctx_t *ctx)
     return CTAPHID_ERROR_INVALID_CMD;
 }
 
-ctaphid_status_t ctaphid_cmd_cbor(ctaphid_req_session_t *session)
+ctaphid_status_t ctaphid_cmd_cbor(app_ctx_t *ctx)
 {
     if(session == NULL)
     {
@@ -43,17 +43,6 @@ ctaphid_status_t ctaphid_cmd_cbor(ctaphid_req_session_t *session)
     }
     
     // ToDo: Write the CBOR Command Logic
-}
-
-ctaphid_status_t ctaphid_cmd_init(ctaphid_req_session_t *session)
-{
-    if(session == NULL)
-    {
-        LOG_ERR("Received NULL Structure");
-        return CTAPHID_ERROR_INVALID_INPUT;
-    }
-    
-    // ToDo: Write the INIT Command Logic
 }
 
 ctaphid_status_t ctaphid_cmd_ping(app_ctx_t *ctx)
@@ -72,21 +61,7 @@ ctaphid_status_t ctaphid_cmd_ping(app_ctx_t *ctx)
 
     return CTAPHID_OK;
 }
-
-void ctaphid_cmd_cancel(app_ctx_t *ctx)
-{
-    if(!ctx)
-    {
-        LOG_ERR("Received Invalid Input");
-        return CTAPHID_ERROR_INVALID_INPUT;
-    }
-    
-    /**
-     * 
-     */
-}
-
-void ctaphid_cmd_error(app_ctx_t *ctx, uint8_t error_code)
+ctaphid_status_t ctaphid_cmd_error(app_ctx_t *ctx)
 {
     if(error_code == 0)
     {
@@ -102,7 +77,7 @@ void ctaphid_cmd_error(app_ctx_t *ctx, uint8_t error_code)
     event_queue_push(EVENT_PROCESSING_DONE);
 }
 
-ctaphid_status_t ctaphid_cmd_keepalive()
+ctaphid_status_t ctaphid_cmd_keepalive(app_ctx_t *ctx)
 {
     if(session == NULL)
     {
