@@ -11,31 +11,48 @@
 
 typedef struct
 {
-    // Interfaces
-    const led_if_t *led;
-    const button_if_t *button;
-    const transport_if_t *transport;
+    // Plugged-In Interfaces
+    const led_if_t *led;                                // Pointer to LED Interface abstraction
+    const button_if_t *button;                          // Pointer to Button Interface abstraction
+    const transport_if_t *transport;                    // Pointer to Transport Interface abstraction
 
-    // Request & Response Buffers
-    uint8_t request_message[MAX_MESSAGE_SIZE];      // Request INIT and CONT packets
-    uint8_t request_payload[MAX_PAYLOAD_SIZE];      // Extracted CBOR input payload
-    uint8_t response_payload[MAX_PAYLOAD_SIZE];     // Processed CBOR output payload
-    uint8_t response_message[MAX_MESSAGE_SIZE];     // Response INIT and CONT packets
+    // Device State Information
+    app_state_t device_state;                           // Current Device State
+    uint8_t     internal_error_code;                    // Error Code internal to Application
+    uint8_t     remapped_error_code;                    // Error Code remapped to CTAPHID Specification
+    bool        initialized;                            // Flag for received valid INIT Packet
 
-    // State Machine Information
-    app_state_t device_state;
-    uint8_t error_code;
-    bool initialized;
+    // Request Message Information
+    uint32_t    active_request_cid;                     // Active Request's Channel ID
+    uint8_t     request_cmd;                            // Active Request's Request CTAPHID Command
+    uint16_t    request_payload_len;                    // Request Payload Length in bytes
+    uint16_t    request_message_len;                    // Request Message Length (includes headers)
+    uint8_t     request_packet_count;                   // Request Packet Counts (INIT + CONT)
+    uint8_t     request_sequence_count;                 // Request CONT Packets Sequence Counter
+    uint8_t     request_payload[MAX_PAYLOAD_SIZE];      // Reconstructed Input CBOR Payload 
+    uint8_t     request_message[MAX_MESSAGE_SIZE];      // Buffered Request INIT and CONT packets
 
-    // Transaction Metadata
-    uint32_t request_channel_id;
-    uint8_t  request_cmd;
-    uint16_t request_message_len;
-    uint16_t request_payload_len;
-    uint8_t request_packet_count;
-    uint16_t response_payload_len;
-    uint16_t response_message_len;
-    uint8_t response_packet_count;
+    // Response Message Information
+    uint32_t    active_response_cid;                    // Active Response's Channel ID
+    uint8_t     response_cmd;                           // Active Response's CTAPHID Command
+    uint16_t    response_payload_len;                   // Response Payload Length in bytes
+    uint16_t    response_message_len;                   // Response Message Length (includes headers)
+    uint8_t     response_packet_count;                  // Response Packet Counts (INIT + CONT)
+    uint8_t     response_payload[MAX_PAYLOAD_SIZE];     // Processed Output CBOR payload
+    uint8_t     response_message[MAX_MESSAGE_SIZE];     // Buffered Response INIT and CONT packets
+
+    // Interrupted Request Information
+    volatile bool abort_requested;                      // Flag to check the Abort Request
+    uint32_t    non_active_incoming_cid;                // Non-Active CID that interrupted current process
+    uint32_t    new_generated_cid;                      // Newly Generated CID by Device for Client
+    uint8_t     init_command_nonce[8];                  // Buffer to hold 8-byte Nonce to echo
+
+    // Device Specific Versioning Information
+    uint8_t     ctaphid_protocol_version;               // CTAPHID Protocol Version Implemented by Device
+    uint8_t     major_device_version;                   // Major Device Version Number
+    uint8_t     minor_device_version;                   // Minor Device Version Number
+    uint8_t     build_device_version;                   // Build Device Version Number
+    uint8_t     device_capability_flag;                 // Capability Flag to indicate features (WINK/CBOR/MSG)
 
 } app_ctx_t;
 

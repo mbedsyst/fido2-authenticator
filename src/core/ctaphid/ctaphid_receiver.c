@@ -13,19 +13,20 @@
 
 #include "ctaphid.h"
 #include "app_ctx.h"
+#include "app_events.h"
 #include "event_queue.h"
 #include "ctaphid_receiver.h"
 
-uint16_t CalculateMessageSize(uint16_t total_payload_len)
+uint16_t calculate_message_size(uint16_t req_payload_len)
 {
-    if(total_payload_len <= INIT_DATA_MAX_LEN)
+    if(req_payload_len <= INIT_DATA_MAX_LEN)
     {
-        return (total_payload_len + 7);
+        return (req_payload_len + 7);
     }
-    else if (total_payload_len > INIT_DATA_MAX_LEN && total_payload_len <= PKT_MAX_PAYLOAD_LEN)
+    else if (req_payload_len > INIT_DATA_MAX_LEN && req_payload_len <= PKT_MAX_PAYLOAD_LEN)
     {
         uint8_t cont_payload_len, cont_packet_count;
-        cont_payload_len = total_payload_len - INIT_DATA_MAX_LEN;
+        cont_payload_len = req_payload_len - INIT_DATA_MAX_LEN;
         if((cont_payload_len % CONT_DATA_MAX_LEN) == 0)
         {
             cont_packet_count = cont_payload_len/CONT_DATA_MAX_LEN;
@@ -40,16 +41,16 @@ uint16_t CalculateMessageSize(uint16_t total_payload_len)
     }
 }
 
-uint8_t CalculatePacketCount(uint16_t payload_len)
+uint8_t calculate_packet_count(uint16_t req_payload_len)
 {
-    if(payload_len <= INIT_DATA_MAX_LEN)
+    if(req_payload_len <= INIT_DATA_MAX_LEN)
     {
         return 1;
     }
-    else if (payload_len > INIT_DATA_MAX_LEN && payload_len <= PKT_MAX_PAYLOAD_LEN)
+    else if (req_payload_len > INIT_DATA_MAX_LEN && req_payload_len <= PKT_MAX_PAYLOAD_LEN)
     {
         uint8_t count, seq_count;
-        count = payload_len - INIT_DATA_MAX_LEN;
+        count = req_payload_len - INIT_DATA_MAX_LEN;
         if((count % CONT_DATA_MAX_LEN) == 0)
         {
             seq_count = count/CONT_DATA_MAX_LEN;
@@ -59,6 +60,142 @@ uint8_t CalculatePacketCount(uint16_t payload_len)
         {
             seq_count = (count/CONT_DATA_MAX_LEN) + 1;
             return seq_count;
+        }
+    }
+}
+
+static bool is_init_packet(uint8_t *report)
+{
+    return (report[INIT_CMD_POS] & 0x80 != 0);
+}
+
+static uint32_t extract_cid(uint8_t *report)
+{
+    uint32_t cid;
+    cid = (report[CID_POS + 0] << 24) | (report[CID_POS + 1] << 16) | (report[CID_POS + 2] << 8) | (report[CID_POS + 3] << 0);
+    return cid;
+}
+
+static uint8_t extract_cmd(uint8_t *report)
+{
+    return (report[INIT_CMD_POS]);
+}
+
+static extract_seq(uint8_t *report)
+{
+    return (report[CONT_SEQ_POS]);
+}
+
+static uint16_t extract_payload_len(uint8_t *report)
+{
+    return (((report[INIT_BCNTH_POS]) << 8) | (report[INIT_BCNTL_POS]));
+}
+
+ctaphid_status_t ctaphid_receive_packet(app_ctx_t *ctx, uint8_t *report, uint8_t len)
+{
+    uint32_t incoming_cid = extract_cid(report);
+    uint8_t cmd = extract_cmd(report);
+    bool is_init_pkt = is_init_packet(report);
+
+    // Checking if Device is in IDLE state
+    if (ctx->device_state == STATE_IDLE) 
+    {
+        // Checking if it is an INIT Packet with INIT Command
+        if (is_init_pkt && cmd == CTAPHID_INIT) 
+        {
+            ctx->active_request_cid = incoming_cid;
+            ctx->request_cmd = cmd;
+            ctx->request_payload_len = INIT_NONCE_LEN;
+            memcpy(ctx->request_payload, report[INIT_DATA_POS], INIT_NONCE_LEN);
+            event_queue_push(EVENT_PAYLOAD_RECONSTRUCTED);
+            return CTAPHID_OK;
+        }
+        // Checking if it is an INIT Packet with CANCEL Command
+        else if (is_init_pkt && cmd == CTAPHID_CANCEL)
+        {
+            event_queue_push(EVENT_RESPONSE_SENT);
+            return CTAPHID_OK;
+        }
+        // Checking if it is an INIT Packet with MSG/CBOR/PING Command
+        else if (is_init_pkt && ((cmd == CTAPHID_MSG) || (cmd == CTAPHID_CBOR) || (cmd == CTAPHID_PING)))
+        {
+            ctx->request_payload_len = extract_payload_len(report);
+            ctx->request_message_len = calculate_message_size(ctx->request_payload_len);
+            ctx->request_packet_count = calculate_packet_count(ctx->request_payload_len);
+            // ToDo: Research and fix the size of data to copy
+            memcpy(ctx->request_message[CID_POS], report, len);
+            ctx->request_message_copied_len += len;
+            event_queue_push(EVENT_REQUEST_RECEIVING_STARTED);
+            return CTAPHID_OK;
+        }
+        // If the packet is a CONT Packet
+        else 
+        {
+            ctx->non_active_incoming_cid = incoming_cid;
+            // ToDo: Add CTAPHID Specification Error codes in Header
+            ctx->remapped_error_code = ERR_INVALID_PAR;
+            // ToDo: Setup the Fast Responder Thread & Queue
+            // Push EVENT_ERROR_HANDLE to fast responder queue
+            return CTAPHID_OK;
+        }
+    }
+    // If the device is not in IDLE state
+    else 
+    {
+        // Checking if the Retrieved CID is the Active CID
+        if (incoming_cid == ctx->active_request_cid) 
+        {
+            // Checking if it is an INIT Packet with INIT Command
+            if (is_init_pkt && cmd == CTAPHID_INIT) 
+            {
+                ctx->non_active_incoming_cid = incoming_cid;
+                // ToDo: Add CTAPHID Specification Error codes in Header
+                ctx->remapped_error_code = ERR_CHANNEL_BUSY;
+                // ToDo: Setup the Fast Responder Thread & Queue
+                // Push EVENT_ERROR_HANDLE to fast responder queue
+                return CTAPHID_OK;
+            } 
+            // Checking if it is an INIT Packet with CANCEL Command
+            else if (is_init_pkt && cmd == CTAPHID_CANCEL) 
+            {
+                ctx->abort_requested = true;
+                // ToDo: Fix Event enumeration to add EVENT_PROCESS_CANCELLED
+                // Push EVENT_PROCESS_CANCELLED to normal queue
+                return CTAPHID_OK
+            } 
+            // If the packet is a CONT Packet
+            else 
+            {
+                ctx->request_sequence_count = extract_seq(report);
+                // ToDo: Research and fix the size of data to copy
+                memcpy(&ctx->request_message[PKT_SIZE_DEFAULT * (ctx->request_sequence_count + 1)], report, len);
+                return CTAPHID_OK;
+            }
+        } 
+        // If the Retrieved CID is not the Active CID
+        else 
+        {
+            // Checking if it is an INIT Packet with INIT/MSG/CBOR/PING Command
+            if (is_init_pkt && cmd == CTAPHID_INIT) 
+            {
+                ctx->non_active_incoming_cid = incoming_cid;
+                // ToDo: Add CTAPHID Specification Error codes in Header
+                ctx->remapped_error_code = ERR_CHANNEL_BUSY;
+                // ToDo: Setup the Fast Responder Thread & Queue
+                // Push EVENT_ERROR_HANDLE to fast responder queue
+                return CTAPHID_OK;
+
+            } 
+            // If the packet is a CONT Packet
+            else 
+            {
+                ctx->non_active_incoming_cid = incoming_cid;
+                // ToDo: Add CTAPHID Specification Error codes in Header
+                ctx->remapped_error_code = ERR_INVALID_PAR;
+                // ToDo: Setup the Fast Responder Thread & Queue
+                // Push EVENT_ERROR_HANDLE to fast responder queue
+                return CTAPHID_OK;
+            }
         }
     }
 }
@@ -85,7 +222,8 @@ ctaphid_status_t ctaphid_receive_packet(app_ctx_t *ctx, uint8_t *report, uint8_t
         }
         else if(report[INIT_CMD_POS] == CTAPHID_INIT)
         {
-            /*** Copy 8-byte Nonce ***/
+
+            memcpy(ctx->init_command_nonce, &report[INIT_DATA_POS], sizeof(ctx->init_command_nonce));
 
             if(memcmp(channel_id, broadcast_cid, CID_LEN) == 0)
             {
@@ -111,8 +249,8 @@ ctaphid_status_t ctaphid_receive_packet(app_ctx_t *ctx, uint8_t *report, uint8_t
         return CTAPHID_ERROR_INVALID_LEN;
     }
 
-    ctx->request_message_len = CalculateMessageSize(ctx->request_payload_len);
-    total_packet_count = CalculatePacketCount(ctx->request_payload_len);
+    ctx->request_message_len = calculate_message_size(ctx->request_payload_len);
+    total_packet_count = calculate_packet_count(ctx->request_payload_len);
     total_len = ctx->request_message_len;
 
     // ToDo: Fix the amount of data to copy from report to request_message[]

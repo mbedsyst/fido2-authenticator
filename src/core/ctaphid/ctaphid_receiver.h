@@ -20,9 +20,8 @@
  * @param[in]  report   Pointer to the received 64-byte USB HID report.
  * @param[in]  report   Size of valid data read from Endpoint Buffer
  * 
- * @return  Status of the deconstruction process.
+ * @return  Status of the Packet Receiving operation.
  *         - CTAPHID_OK on success.
- *         - Non-zero value on error
  */
 ctaphid_status_t ctaphid_receive_packet(app_ctx_t *ctx, uint8_t *report, uint8_t len);
 
