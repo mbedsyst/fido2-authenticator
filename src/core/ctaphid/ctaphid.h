@@ -25,6 +25,17 @@
 #define CTAPHID_WINK            0x08
 #define CTAPHID_LOCK            0x04
 
+// CTAPHID Specification Error Codes
+#define ERR_INVALID_CMD	        0x01
+#define ERR_INVALID_PAR	        0x02
+#define ERR_INVALID_LEN	        0x03
+#define ERR_INVALID_SEQ	        0x04
+#define ERR_MSG_TIMEOUT	        0x05
+#define ERR_CHANNEL_BUSY	    0x06
+#define ERR_LOCK_REQUIRED	    0x0A
+#define ERR_INVALID_CHANNEL	    0x0B
+#define ERR_OTHER	            0x7F
+
 // Packet Independent Macro definitions
 #define CID_POS                 0
 #define CID_LEN                 4
@@ -48,23 +59,32 @@
 #define CONT_SEQ_LEN            1
 #define CONT_DATA_MAX_LEN       59
 
-//
-#define INIT_NONCE_LEN          8
-
 // Packet Related Macro Definitions
-#define PKT_SIZE_DEFAULT        64
-#define PKT_INITPKT_DATA_POS    0
-#define PKT_CONTPKT_DATA_POS    57
-#define PKT_LEN_FOR_INIT_ONLY   57
 #define PKT_SEQ_MIN             0
 #define PKT_SEQ_MAX             127
 #define PKT_SEQ_COUNT           128
-#define PKT_MAX_PAYLOAD_LEN     7069
+#define PKT_SIZE_DEFAULT        64
+#define PKT_INIT_MAX_COUNT      1
+#define PKT_CONT_MAX_COUNT      128
+#define PKT_TOTAL_MAX_COUNT     129
 
 // Message Related Macro Definitions
-#define MAX_PAYLOAD_LEN         7069
-#define MAX_MESSAGE_LEN         8256
+#define MAX_PAYLOAD_LEN         (7069 + 128)
+#define MAX_MESSAGE_LEN         (8256 + 128)
 
+// CTAPHID Command Related Definitions
+#define INIT_CMD_NONCE_LEN      0x08
+#define CTAPHID_PROTOCOL_VER    0x02
+#define MAJOR_DEV_VER_NUMBER    0x00
+#define MINOR_DEV_VER_NUMBER    0x00
+#define BUILD_DEV_VER_NUMBER    0x00
+#define CAPABILITY_WINK         0x01
+#define CAPABILITY_CBOR         0x04
+#define CAPABILITY_NMSG         0x08
+#define STATUS_PROCESSING       0x01
+#define STATUS_UP_NEEDED        0x02
+
+// Internal CTAPHID status code enumeration
 typedef enum
 {
     CTAPHID_OK = 0,
