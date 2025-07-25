@@ -1,0 +1,38 @@
+ * ctaphid_status_t ctaphid_payload_deconstructor(app_ctx_t *ctx)
+    * Check if ctx is valid
+    * Check if ctx->response_payload_len is valid
+    * Initialize payload_bytes_copied to 0
+    * Initialize payload_bytes_remaining to ctx->response_payload_len
+    * Initialize init_packet_payload_len to 0
+    * Initialize cont_packet_payload_len to 0
+    * Initialize cont_packet_offset_in_message to 0
+    * Initialize current_cont_packet_index to 0
+    * Initialize current_cont_packet_count to 0
+    * Copy ctx->active_response_cid into ctx->response_message[INIT_CID_POS]
+    * Copy ctx->response_cmd into ctx->response_message[INIT_CMD_POS]
+    * Copy ctx->response_payload_len into ctx->response_message[INIT_BCNTH_POS/INIT_BCNTL_POS]
+    * Check if ctx->response_payload_len is less than INIT_DATA_MAX_LEN
+        * Set init_packet_payload_len to ctx->response_payload_len
+        * Copy ctx->response_payload_len bytes from ctx->response_payload[0] into ctx->response_message[INIT_DATA_POS]
+    * If ctx->response_payload_len is greater than INIT_DATA_MAX_LEN
+        * Set init_packet_payload_len to INIT_DATA_MAX_LEN
+        * Copy INIT_DATA_MAX_LEN bytes from ctx->response_payload[0] into ctx->response_message[INIT_DATA_POS]
+    * Increase payload_bytes_copied by init_packet_payload_len + 7
+    * Decrease payload_bytes_remaining by init_packet_payload_len
+    * Loop to check if payload_bytes_remaining is greater than 0
+        * Calculate cont_packet_offset_in_message as PKT_SIZE_DEFAULT + (current_cont_packet_count * PKT_SIZE_DEFAULT)
+        * Copy ctx->active_response_cid into first 4 bytes of ctx->response_message[cont_packet_offset_in_message + CONT_CID_POS + 0]
+        * Copy current_seq_packet_count into ctx->response_message[cont_packet_offset_in_message + CONT_SEQ_POS]
+        * Check if payload_bytes_remaining is less than CONT_DATA_MAX_LEN
+            * Set cont_packet_payload_len to payload_bytes_remaining
+        * If payload_bytes_remaining is greater than CONT_DATA_MAX_LEN
+            * Set cont_packet_payload_len to CONT_DATA_MAX_LEN
+        * Copy cont_packet_payload_len bytes from ctx->response_payload[payload_bytes_copied] into ctx->response_message[cont_packet_offset_in_message + CONT_DATA_POS]
+        * Increase payload_bytes_copied by cont_packet_payload_len
+        * Decrease payload_bytes_remaining by cont_packet_payload_len
+        * Increase current_cont_packet_index by 1
+    * Check if payload_bytes_remaining = 0 and payload_bytes_copied = ctx->response_payload_len
+        * Display Error Message "Deconstruction Failed"
+        * Return Error Code CTAPHID_DECONSTRUCTION_FAIL
+    * Display Debug Message
+    * Return CTAPHID_OK 

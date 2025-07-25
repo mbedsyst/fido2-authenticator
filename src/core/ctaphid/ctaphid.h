@@ -69,8 +69,8 @@
 #define PKT_TOTAL_MAX_COUNT     129
 
 // Message Related Macro Definitions
-#define MAX_PAYLOAD_LEN         (7069 + 128)
-#define MAX_MESSAGE_LEN         (8256 + 128)
+#define MAX_PAYLOAD_LEN         7069
+#define MAX_MESSAGE_LEN         8256
 
 // CTAPHID Command Related Definitions
 #define INIT_CMD_NONCE_LEN      0x08
@@ -96,6 +96,8 @@ typedef enum
     CTAPHID_ERROR_INVALID_LEN,
     CTAPHID_ERROR_TIMEOUT,
     CTAPHID_ERROR_CHANNEL_BUSY,
+    CTAPHID_RECONSTRUCTION_FAILED,
+    CTAPHID_DECONSTRUCTION_FAILED,
     CTAPHID_ERROR_OTHER,
 } ctaphid_status_t;
 

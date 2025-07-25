@@ -21,10 +21,86 @@
 
 LOG_MODULE_REGISTER(ctaphid_deconstructor);
 
+uint16_t calculate_message_size(uint16_t payload_len)
+{
+    if(payload_len <= INIT_DATA_MAX_LEN)
+    {
+        return (payload_len + 7);
+    }
+    else if (payload_len > INIT_DATA_MAX_LEN && payload_len <= MAX_PAYLOAD_LEN)
+    {
+        uint8_t cont_payload_len, cont_packet_count;
+        cont_payload_len = payload_len - INIT_DATA_MAX_LEN;
+        if((cont_payload_len % CONT_DATA_MAX_LEN) == 0)
+        {
+            cont_packet_count = cont_payload_len/CONT_DATA_MAX_LEN;
+            return (cont_packet_count * (5 + CONT_DATA_MAX_LEN) + (1 * PKT_SIZE_DEFAULT));
+        }
+        else
+        {
+            uint8_t last_packet_payload_len = cont_payload_len % CONT_DATA_MAX_LEN;
+            cont_packet_count = (cont_payload_len/CONT_DATA_MAX_LEN);
+            return (cont_packet_count * (5 + CONT_DATA_MAX_LEN) + (last_packet_payload_len + 5) + (1 * PKT_SIZE_DEFAULT));
+        }
+    }
+}
+
+uint8_t calculate_packet_count(uint16_t payload_len)
+{
+    if(payload_len <= INIT_DATA_MAX_LEN)
+    {
+        return 1;
+    }
+    else if (payload_len > INIT_DATA_MAX_LEN && payload_len <= MAX_PAYLOAD_LEN)
+    {
+        uint8_t count, seq_count;
+        count = payload_len - INIT_DATA_MAX_LEN;
+        if((count % CONT_DATA_MAX_LEN) == 0)
+        {
+            seq_count = count/CONT_DATA_MAX_LEN;
+            return seq_count;
+        }
+        else
+        {
+            seq_count = (count/CONT_DATA_MAX_LEN) + 1;
+            return seq_count;
+        }
+    }
+}
+
+static uint8_t packet_order_check(uint8_t *message, uint8_t total_packet_count)
+{
+    if(total_packet_count == 0 || total_packet_count > 128)
+    {
+        LOG_ERR("Message Buffer Order Check failed. Invalid Packet Count.");
+        return 255;
+    }
+
+    uint8_t current_seq_packet_count;
+    uint8_t current_seq_field_index;
+
+    for(current_seq_packet_count = 0; current_seq_packet_count < total_packet_count; current_seq_packet_count++)
+    {
+        current_seq_field_index = (PKT_SIZE_DEFAULT + CONT_SEQ_POS) + (current_seq_packet_count * PKT_SIZE_DEFAULT);
+        if(message[current_seq_field_index] != (current_seq_packet_count))
+        {
+            LOG_ERR("Message Buffer Order Check failed. SEQ Value mismatch at packet %d", current_seq_packet_count);
+            return current_seq_packet_count;
+        }
+    }
+
+    LOG_DBG("Message Buffer Order Check passed");
+    return 0;
+}
+
 ctaphid_status_t ctaphid_payload_deconstructor(app_ctx_t *ctx)
 {
-    size_t total_packets = 0;
-    size_t offset = 0;
+    // Check if Context is Valid
+    if(!ctx)
+    {
+        LOG_ERR("Received invalid context");
+        return CTAPHID_ERROR_INVALID_INPUT;
+    }
 
     if(ctx->response_payload_len == 0 || ctx->response_payload_len > MAX_PAYLOAD_SIZE)
     {
@@ -32,50 +108,61 @@ ctaphid_status_t ctaphid_payload_deconstructor(app_ctx_t *ctx)
         return CTAPHID_ERROR_INVALID_LEN;
     }
 
-    /*** Setting up the INIT Packet ***/
-    // Setting Channel ID in the INIT Packet
-    ctx->response_message[CID_POS + 0] = (ctx->request_channel_id >> 24) & 0xFF;
-    ctx->response_message[CID_POS + 1] = (ctx->request_channel_id >> 16) & 0xFF;
-    ctx->response_message[CID_POS + 2] = (ctx->request_channel_id >> 8) & 0xFF;
-    ctx->response_message[CID_POS + 3] = (ctx->request_channel_id) & 0xFF;
-    // Setting CMD, BCNTH and BCNTL in the INIT Packet
-    ctx->response_message[4] = 0x80 | (ctx->request_cmd & 0x7F);            // Ensure MSB is set for INIT CMD
-    ctx->response_message[5] = (ctx->response_payload_len >> 8) & 0xFF;     // BCNTH
-    ctx->response_message[6] = (ctx->response_payload_len) & 0xFF;          // BCNTL
-    // Copying valid data for INIT Packet from Response Payload buffer
-    uint8_t init_data_len = (ctx->response_payload_len > INIT_DATA_MAX_LEN) ? INIT_DATA_MAX_LEN : ctx->response_payload_len;
-    memcpy(&ctx->response_message[INIT_DATA_POS], ctx->response_payload, init_data_len);
-    offset += PKT_SIZE_DEFAULT;
-    total_packets++;
+    uint16_t payload_bytes_copied = 0;
+    uint16_t payload_bytes_remaining = ctx->response_payload_len;
+    uint8_t  init_packet_payload_len = 0;
+    uint16_t cont_packet_payload_len = 0;
+    uint16_t cont_packet_offset_in_message = 0;
+    uint16_t current_cont_packet_index = 0;
+    uint8_t  current_cont_packet_count = 0;
 
-    size_t remaining = ctx->response_payload_len - init_data_len;
-    size_t payload_offset = init_data_len;
+    ctx->response_packet_count = calculate_packet_count(ctx->response_payload_len);
+    ctx->response_message_len = calculate_message_size(ctx->response_payload_len);
+
+    // Setting up the INIT Packet
+    ctx->response_message[INIT_CID_POS + 0] = (ctx->active_response_cid >> 24) & 0xFF;
+    ctx->response_message[INIT_CID_POS + 1] = (ctx->active_response_cid >> 16) & 0xFF;
+    ctx->response_message[INIT_CID_POS + 2] = (ctx->active_response_cid >> 8) & 0xFF;
+    ctx->response_message[INIT_CID_POS + 3] = (ctx->active_response_cid) & 0xFF;
+    ctx->response_message[INIT_CMD_POS] = ctx->response_cmd;
+    ctx->response_message[INIT_BCNTH_POS] = (ctx->response_payload_len >> 8) & 0xFF;
+    ctx->response_message[INIT_BCNTL_POS] = (ctx->response_payload_len) & 0xFF;
+    init_packet_payload_len = (ctx->response_payload_len < INIT_DATA_MAX_LEN) ? ctx->response_payload_len : INIT_DATA_MAX_LEN;
+    memcpy(&ctx->response_message[INIT_DATA_POS], ctx->response_payload, init_packet_payload_len);
+    payload_bytes_copied += init_packet_payload_len;
+    payload_bytes_remaining -= init_packet_payload_len;
 
     // Setting up the CONT Packets
-    uint8_t seq = 0;
-
-    while (remaining > 0) 
+    while(payload_bytes_remaining > 0)
     {
-        uint8_t* cont_pkt = out_buf + offset;
-
-        cont_pkt[0] = (cid >> 24) & 0xFF;
-        cont_pkt[1] = (cid >> 16) & 0xFF;
-        cont_pkt[2] = (cid >> 8)  & 0xFF;
-        cont_pkt[3] = (cid)       & 0xFF;
-
-        cont_pkt[4] = seq++;
-
-        size_t chunk = (remaining > CONT_DATA_MAX_LEN) ? CONT_DATA_MAX_LEN : remaining;
-        memcpy(&cont_pkt[5], &payload[payload_offset], chunk);
-
-        payload_offset += chunk;
-        remaining -= chunk;
-        offset += PKT_SIZE_DEFAULT;
-        total_packets++;
+        cont_packet_offset_in_message = PKT_SIZE_DEFAULT + (current_cont_packet_count * PKT_SIZE_DEFAULT);
+        ctx->response_message[cont_packet_offset_in_message + CONT_CID_POS + 0] = (ctx->active_response_cid >> 24) & 0xFF;
+        ctx->response_message[cont_packet_offset_in_message + CONT_CID_POS + 1] = (ctx->active_response_cid >> 16) & 0xFF;
+        ctx->response_message[cont_packet_offset_in_message + CONT_CID_POS + 2] = (ctx->active_response_cid >> 8) & 0xFF;
+        ctx->response_message[cont_packet_offset_in_message + CONT_CID_POS + 3] = (ctx->active_response_cid) & 0xFF;
+        ctx->response_message[cont_packet_offset_in_message + CONT_SEQ_POS] = current_cont_packet_count;
+        cont_packet_payload_len = (payload_bytes_remaining < CONT_DATA_MAX_LEN) ? payload_bytes_remaining : CONT_DATA_MAX_LEN;
+        memcpy(&ctx->request_message[cont_packet_offset_in_message + CONT_DATA_POS], &ctx->response_payload[payload_bytes_copied], cont_packet_payload_len);
+        payload_bytes_copied += cont_packet_payload_len;
+        payload_bytes_remaining -= cont_packet_payload_len;
+        current_cont_packet_count++;
     }
 
-    LOG_DBG("Deconstructed Response Payload into Message Buffer.");
-    event_queue_push(EVENT_PAYLOAD_DECONSTRUCTED);
+    // Checking if Response Payload was completely Deconstructed
+    if(!(payload_bytes_remaining == 0 && payload_bytes_copied = ctx->response_payload_len))
+    {
+        LOG_ERR("Response Payload Deconstruction failed");
+        return CTAPHID_DECONSTRUCTION_FAILED;
+    }
 
+    int ret = packet_order_check(ctx->request_message, ctx->response_packet_count);
+    if(ret)
+    {
+        LOG_ERR("Payload Deconstruction failed.");
+        return CTAPHID_DECONSTRUCTION_FAILED;
+    }
+
+    LOG_DBG("Response Payload Deconstructed");
     return CTAPHID_OK;
+
 }

@@ -38,9 +38,9 @@ LOG_MODULE_REGISTER(ctaphid_reconstructor);
 
 static uint8_t packet_order_check(uint8_t *message, uint8_t total_packet_count)
 {
-    if(message_len == 0)
+    if(total_packet_count == 0 || total_packet_count > 128)
     {
-        // ToDo: Handle Zero Message Length return status
+        LOG_ERR("Message Buffer Order Check failed. Invalid Packet Count.");
         return 255;
     }
 
@@ -52,7 +52,7 @@ static uint8_t packet_order_check(uint8_t *message, uint8_t total_packet_count)
         current_seq_field_index = (PKT_SIZE_DEFAULT + CONT_SEQ_POS) + (current_seq_packet_count * PKT_SIZE_DEFAULT);
         if(message[current_seq_field_index] != (current_seq_packet_count))
         {
-            LOG_ERR("Message Buffer Order Check failed.");
+            LOG_ERR("Message Buffer Order Check failed. SEQ Value mismatch at packet %d", current_seq_packet_count);
             return current_seq_packet_count;
         }
     }
@@ -79,8 +79,7 @@ ctaphid_status_t ctaphid_payload_reconstructor(app_ctx_t *ctx)
     int ret = packet_order_check(ctx->request_message, ctx->request_packet_count);
     if(ret)
     {
-        // ToDo: Handle error message
-        LOG_ERR("");
+        LOG_ERR("Payload Reconstruction failed.");
         return CTAPHID_ERROR_INVALID_LEN;
     }
 
