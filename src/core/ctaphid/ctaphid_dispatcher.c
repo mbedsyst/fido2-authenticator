@@ -45,11 +45,32 @@ ctaphid_status_t ctaphid_cmd_cbor(app_ctx_t *ctx)
     // ToDo: Write the CBOR Command Logic
 }
 
+
+
 ctaphid_status_t ctaphid_cmd_init(app_ctx_t *ctx)
 {
+    if(!ctx)
+    {
+        LOG_ERR("Received Invalid Input");
+        return CTAPHID_ERROR_INVALID_INPUT;
+    }
 
+    uint32_t new_generated_cid = 0;
+    // *** Generate a new CID ***
 
-
+    // Setting up the Response Payload
+    memcpy(ctx->response_payload, ctx->init_command_nonce, INIT_CMD_NONCE_LEN);
+    ctx->response_payload[INIT_CMD_CID_POS + 0] = (new_generated_cid >> 24) & 0xFF;
+    ctx->response_payload[INIT_CMD_CID_POS + 1] = (new_generated_cid >> 16) & 0xFF;
+    ctx->response_payload[INIT_CMD_CID_POS + 2] = (new_generated_cid >> 8) & 0xFF;
+    ctx->response_payload[INIT_CMD_CID_POS + 3] = (new_generated_cid) & 0xFF;
+    ctx->response_payload[INIT_CMD_PROTOCOL_POS] = CTAPHID_PROTOCOL_VER;
+    ctx->response_payload[INIT_CMD_MAJ_VER_POS] = MAJOR_DEV_VER_NUMBER;
+    ctx->response_payload[INIT_CMD_MIN_VER_POS] = MINOR_DEV_VER_NUMBER;
+    ctx->response_payload[INIT_CMD_BUILD_VER_POS] = BUILD_DEV_VER_NUMBER;
+    ctx->response_payload[INIT_CMD_CPBLT_POS] = (CAPABILITY_WINK) | (CAPABILITY_CBOR) | (CAPABILITY_NMSG);
+    ctx->response_payload_len = 17;
+    event_queue_push(EVENT_PROCESSING_DONE);
 }
 
 ctaphid_status_t ctaphid_cmd_ping(app_ctx_t *ctx)

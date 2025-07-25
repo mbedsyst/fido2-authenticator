@@ -1,0 +1,14 @@
+* CTAPHID_INIT() Handler
+    * Copy 8-byte Nonce into response_payload[]
+    * Generate a new CID
+    * Copy new CID into response_payload[]
+    * Copy CTAPHID Protocol version into response_payload[]
+    * Copy Major Device Version Number into response_payload[]
+    * Copy Minor Device Version Number into response_payload[]
+    * Copy Build Device Version Number into response_payload[]
+    * Copy Capabilities Flag into response_payload[]
+    * Set response_payload_len to 17
+    * Push EVENT_PROCESSING_DONE to normal queue
+
+* CTAPHID_CANCEL() Handler
+    * 

@@ -72,17 +72,32 @@
 #define MAX_PAYLOAD_LEN         7069
 #define MAX_MESSAGE_LEN         8256
 
-// CTAPHID Command Related Definitions
-#define INIT_CMD_NONCE_LEN      0x08
-#define CTAPHID_PROTOCOL_VER    0x02
-#define MAJOR_DEV_VER_NUMBER    0x00
-#define MINOR_DEV_VER_NUMBER    0x00
-#define BUILD_DEV_VER_NUMBER    0x00
-#define CAPABILITY_WINK         0x01
-#define CAPABILITY_CBOR         0x04
-#define CAPABILITY_NMSG         0x08
-#define STATUS_PROCESSING       0x01
-#define STATUS_UP_NEEDED        0x02
+// CTAPHID INIT Response Related Definitions
+#define INIT_CMD_NONCE_POS      0
+#define INIT_CMD_NONCE_LEN      8
+#define INIT_CMD_CID_POS        8
+#define INIT_CMD_CID_LEN        4
+#define INIT_CMD_PROTOCOL_POS   12
+#define INIT_CMD_PROTOCOL_LEN   1
+#define INIT_CMD_MAJ_VER_POS    13
+#define INIT_CMD_MAJ_VER_LEN    1
+#define INIT_CMD_MIN_VER_POS    14
+#define INIT_CMD_MIN_VER_LEN    1
+#define INIT_CMD_BUILD_VER_POS  15
+#define INIT_CMD_BUILD_VER_LEN  1
+#define INIT_CMD_CPBLT_POS      16
+#define INIT_CMD_CPBLT_LEN      1
+
+// CTAPHID & Device Versioning Information
+#define CTAPHID_PROTOCOL_VER    2
+#define MAJOR_DEV_VER_NUMBER    0
+#define MINOR_DEV_VER_NUMBER    0
+#define BUILD_DEV_VER_NUMBER    0
+#define CAPABILITY_WINK         1
+#define CAPABILITY_CBOR         4
+#define CAPABILITY_NMSG         8
+#define STATUS_PROCESSING       1
+#define STATUS_UP_NEEDED        2
 
 // Internal CTAPHID status code enumeration
 typedef enum
