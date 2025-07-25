@@ -76,6 +76,7 @@ ctaphid_status_t ctaphid_payload_reconstructor(app_ctx_t *ctx)
         return CTAPHID_ERROR_INVALID_LEN;
     }
 
+    // Check if Request Message is Sequenced correctly
     int ret = packet_order_check(ctx->request_message, ctx->request_packet_count);
     if(ret)
     {

@@ -101,7 +101,7 @@ ctaphid_status_t ctaphid_payload_deconstructor(app_ctx_t *ctx)
         LOG_ERR("Received invalid context");
         return CTAPHID_ERROR_INVALID_INPUT;
     }
-
+    // Check if Response Payload Length is valid
     if(ctx->response_payload_len == 0 || ctx->response_payload_len > MAX_PAYLOAD_SIZE)
     {
         LOG_ERR("Invalid Payload Length");
@@ -116,6 +116,7 @@ ctaphid_status_t ctaphid_payload_deconstructor(app_ctx_t *ctx)
     uint16_t current_cont_packet_index = 0;
     uint8_t  current_cont_packet_count = 0;
 
+    // Calculate Total Packet Count and Response Message Size
     ctx->response_packet_count = calculate_packet_count(ctx->response_payload_len);
     ctx->response_message_len = calculate_message_size(ctx->response_payload_len);
 
@@ -129,6 +130,8 @@ ctaphid_status_t ctaphid_payload_deconstructor(app_ctx_t *ctx)
     ctx->response_message[INIT_BCNTL_POS] = (ctx->response_payload_len) & 0xFF;
     init_packet_payload_len = (ctx->response_payload_len < INIT_DATA_MAX_LEN) ? ctx->response_payload_len : INIT_DATA_MAX_LEN;
     memcpy(&ctx->response_message[INIT_DATA_POS], ctx->response_payload, init_packet_payload_len);
+    
+    // Update tracker variables
     payload_bytes_copied += init_packet_payload_len;
     payload_bytes_remaining -= init_packet_payload_len;
 
@@ -143,19 +146,22 @@ ctaphid_status_t ctaphid_payload_deconstructor(app_ctx_t *ctx)
         ctx->response_message[cont_packet_offset_in_message + CONT_SEQ_POS] = current_cont_packet_count;
         cont_packet_payload_len = (payload_bytes_remaining < CONT_DATA_MAX_LEN) ? payload_bytes_remaining : CONT_DATA_MAX_LEN;
         memcpy(&ctx->request_message[cont_packet_offset_in_message + CONT_DATA_POS], &ctx->response_payload[payload_bytes_copied], cont_packet_payload_len);
+        
+        // Update tracker variables
         payload_bytes_copied += cont_packet_payload_len;
         payload_bytes_remaining -= cont_packet_payload_len;
         current_cont_packet_count++;
     }
 
-    // Checking if Response Payload was completely Deconstructed
+    // Check if Response Payload was completely Deconstructed
     if(!(payload_bytes_remaining == 0 && payload_bytes_copied = ctx->response_payload_len))
     {
         LOG_ERR("Response Payload Deconstruction failed");
         return CTAPHID_DECONSTRUCTION_FAILED;
     }
 
-    int ret = packet_order_check(ctx->request_message, ctx->response_packet_count);
+    // Check if Response Message is Sequenced correctly
+    int ret = packet_order_check(ctx->response_message, ctx->response_packet_count);
     if(ret)
     {
         LOG_ERR("Payload Deconstruction failed.");
