@@ -47,13 +47,10 @@ typedef struct
     uint32_t    new_generated_cid;                      // Newly Generated CID by Device for Client
     uint8_t     init_command_nonce[8];                  // Buffer to hold 8-byte Nonce to echo
 
-    // Device Specific Versioning Information
-    uint8_t     ctaphid_protocol_version;               // CTAPHID Protocol Version Implemented by Device
-    uint8_t     major_device_version;                   // Major Device Version Number
-    uint8_t     minor_device_version;                   // Minor Device Version Number
-    uint8_t     build_device_version;                   // Build Device Version Number
-    uint8_t     device_capability_flag;                 // Capability Flag to indicate features (WINK/CBOR/MSG)
-
+    // Error Mapper values
+    uint16_t    local_error_domain;                     // Local Domain Identifier for modules
+    uint16_t    local_error_code;                       // Local Error Code specific to each domain
+    uint8_t     mapped_error_code;                      // Remapped Error Code according to CTAPHID definition
 } app_ctx_t;
 
 extern app_ctx_t ctx;

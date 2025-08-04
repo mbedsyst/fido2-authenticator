@@ -8,6 +8,7 @@
 #include "ctaphid_deconstructor.h"
 #include "event_queue.h"
 #include "state_handlers.h"
+#include "error_mapper.h"
 
 LOG_MODULE_REGISTER(state_handler);
 
@@ -261,6 +262,14 @@ void handle_error(app_ctx_t *ctx, app_event_t event)
             ctx->led->set(LED_OPERATION, LED_OFF);
             ctx->led->set(LED_IDLE, LED_OFF);
             ctx->led->set(LED_ERROR, LED_BLINK_SLOW);
+            remap_error_to_ctaphid(ctx);
+            // Write a function to prepare message buffer
+            // Write a function to send out the message packet. Raise EVENT_ERROR_HANDLED
+            break;
+
+        case EVENT_ERROR_HANDLED:
+            LOG_INF("Transitioning to State: IDLE");
+            transition_to(STATE_IDLE);
 
         default:
             LOG_WRN("Event Unrecognized in ERROR state");
