@@ -4,6 +4,7 @@
 #include "state_handlers.h"
 
 static app_state_t current_state = STATE_IDLE;
+static app_event_t new_event;
 
 void state_machine_init(void)
 {
@@ -15,39 +16,48 @@ app_state_t state_machine_get_state(void)
     return current_state;
 }
 
-static void transition_to(app_state_t new_state)
+void state_machine_handle_event(app_ctx_t *ctx)
 {
-    current_state = new_state;
-}
+    current_state = state_machine_get_state();
 
-void state_machine_handle_event(app_event_t event)
-{
-    switch(current_state)
+    if (!event_queue_is_empty()) 
     {
-        case STATE_IDLE:
-            handle_idle(event);
-            break;
-    
-        case STATE_RECEIVING:
-
-            break;   
-        case STATE_RECONSTRUCTING:
-
-            break;   
-        case STATE_PROCESSING:
-
-            break;   
-        case STATE_DECONSTRUCTING:
-
-            break;   
-        case STATE_RESPONDING:
-
-            break;           
-        case STATE_ERROR:
-
-            break;        
-        default:
+        if(event_queue_pop(new_event))
+        {
+            switch(current_state)
+            {
+                case STATE_IDLE:
+                    handle_idle(ctx, new_event);
+                    break;
             
-            break;   
+                case STATE_RECEIVING_STARTED:
+                    handle_receiving(ctx, new_event);
+                    break;
+        
+                case STATE_RECONSTRUCTING:
+                    handle_reconstructing(ctx, new_event);
+                    break;  
+        
+                case STATE_PROCESSING:
+                    handle_processing(ctx, new_event);
+                    break;
+        
+                case STATE_DECONSTRUCTING:
+                    handle_deconstructing(ctx, new_event);
+                    break;
+        
+                case STATE_RESPONDING_STARTED:
+                    handle_responding(ctx, new_event);
+                    break;
+        
+                case STATE_ERROR:
+                    handle_error(ctx, new_event);
+                    break;
+        
+                default:
+                    
+                    break;   
+            }   
+        }
     }
 }
