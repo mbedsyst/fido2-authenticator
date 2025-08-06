@@ -105,7 +105,7 @@ ctaphid_status_t ctaphid_receive_packet(app_ctx_t *ctx, uint8_t *report, uint8_t
         {
             ctx->active_request_cid = incoming_cid;
             ctx->request_cmd = cmd;
-            ctx->request_payload_len = INIT_NONCE_LEN;
+            ctx->request_payload_len = INIT_CMD_NONCE_LEN;
             memcpy(ctx->request_payload, report[INIT_DATA_POS], INIT_NONCE_LEN);
             event_queue_push(EVENT_PAYLOAD_RECONSTRUCTED);
             return CTAPHID_OK;
@@ -199,73 +199,3 @@ ctaphid_status_t ctaphid_receive_packet(app_ctx_t *ctx, uint8_t *report, uint8_t
         }
     }
 }
-
-ctaphid_status_t ctaphid_receive_packet(app_ctx_t *ctx, uint8_t *report, uint8_t len)
-{
-    uint8_t channel_id[CID_LEN] = {0};
-    uint8_t broadcast_cid[CID_LEN] = {0xFF, 0xFF, 0xFF, 0xFF};
-
-    static uint16_t total_len = 0;
-    static uint16_t received_len = 0;
-    static uint8_t total_packet_count = 0;
-    static uint8_t received_packet_count = 0;
-
-    // Retrieve the Channel ID from Report
-    memcpy(channel_id, report, CID_LEN);
-
-    // Check if Packet is an INIT Packet
-    if(report[INIT_CMD_POS] & 0x80 != 0)
-    {
-        if(report[INIT_CMD_POS] == CTAPHID_CANCEL)
-        {
-            /*** Process CANCEL ***/
-        }
-        else if(report[INIT_CMD_POS] == CTAPHID_INIT)
-        {
-
-            memcpy(ctx->init_command_nonce, &report[INIT_DATA_POS], sizeof(ctx->init_command_nonce));
-
-            if(memcmp(channel_id, broadcast_cid, CID_LEN) == 0)
-            {
-                /*** Process INIT NEW CID ***/
-            }
-            else if(memcmp(channel_id, active_CID, CID_LEN) == 0)
-            {
-                /*** Process INIT SAME CID ***/
-            }
-        }
-
-        ctx->request_channel_id = (channel_id[0] << 24)
-                                | (channel_id[1] << 16)
-                                | (channel_id[2] << 8)
-                                | (channel_id[3] << 0);
-        ctx->request_cmd = report[INIT_CMD_POS];
-        ctx->request_payload_len = ((report[INIT_BCNTH_POS]) << 8) | (report[INIT_BCNTL_POS]);
-    }
-
-    if(ctx->request_payload_len == 0 || ctx->request_payload_len > MAX_PAYLOAD_SIZE)
-    {
-        LOG_ERR("Invalid Payload Length");
-        return CTAPHID_ERROR_INVALID_LEN;
-    }
-
-    ctx->request_message_len = calculate_message_size(ctx->request_payload_len);
-    total_packet_count = calculate_packet_count(ctx->request_payload_len);
-    total_len = ctx->request_message_len;
-
-    // ToDo: Fix the amount of data to copy from report to request_message[]
-    memcpy(&ctx->request_message[received_packet_count * PKT_SIZE_DEFAULT], report, len);
-    received_len += len;
-    received_packet_count++;
-
-    // Checking both Packet Count and Message Length since received_len may overflow total_len
-    if(received_len == total_len || received_packet_count == total_packet_count)
-    {
-        received_packet_count = 0;
-        LOG_DBG("Message Received completely. ");
-        event_queue_push(EVENT_MESSAGE_RECEIVED);
-    }
-
-    return CTAPHID_OK;
-}
-

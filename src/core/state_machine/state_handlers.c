@@ -83,6 +83,7 @@ void handle_reconstructing(app_ctx_t *ctx, app_event_t event)
     {
         case EVENT_NONE:
             LOG_INF("Current State: RECONSTRUCTING");
+            ctx->device_state = STATE_RECONSTRUCTING;
             ctx->led->set(LED_STATUS, LED_OFF);
             ctx->led->set(LED_ERROR, LED_OFF);
             ctx->led->set(LED_IDLE, LED_OFF);
@@ -212,7 +213,7 @@ void handle_responding(app_ctx_t *ctx, app_event_t event)
     {
         case EVENT_NONE:
             LOG_INF("Current State: RESPONDING");
-            ctx->device_state = STATE_RESPONDING;
+            ctx->device_state = STATE_RESPONDING_STARTED;
             ctx->led->set(LED_ERROR, LED_OFF);
             ctx->led->set(LED_OPERATION, LED_OFF);
             ctx->led->set(LED_IDLE, LED_OFF);

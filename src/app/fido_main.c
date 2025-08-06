@@ -3,6 +3,7 @@
 
 #include "app_ctx.h"
 #include "state_machine.h"
+#include "fast_path_responder.h"
 #include "event_queue.h"
 #include "app_events.h"
 
@@ -14,7 +15,8 @@ void fido_main(void)
 
     ctx.led->set(LED_OPERATION, LED_BLINK_SLOW);
 
-    state_machine_init();  // Initialize state machine
+    state_machine_init();   // Initialize state machine
+    fast_responder_init(&ctx);  // Initialize Fast Responder
 
     while (1)
     {

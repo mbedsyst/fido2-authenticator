@@ -19,6 +19,7 @@ typedef struct
     // Device State Information
     app_state_t device_state;                           // Current Device State
     uint8_t     internal_error_code;                    // Error Code internal to Application
+    uint8_t     internal_error_domain;                  // Error Domain internal to Application
     uint8_t     remapped_error_code;                    // Error Code remapped to CTAPHID Specification
     bool        initialized;                            // Flag for received valid INIT Packet
 
@@ -46,11 +47,6 @@ typedef struct
     uint32_t    non_active_incoming_cid;                // Non-Active CID that interrupted current process
     uint32_t    new_generated_cid;                      // Newly Generated CID by Device for Client
     uint8_t     init_command_nonce[8];                  // Buffer to hold 8-byte Nonce to echo
-
-    // Error Mapper values
-    uint16_t    local_error_domain;                     // Local Domain Identifier for modules
-    uint16_t    local_error_code;                       // Local Error Code specific to each domain
-    uint8_t     mapped_error_code;                      // Remapped Error Code according to CTAPHID definition
 } app_ctx_t;
 
 extern app_ctx_t ctx;
