@@ -70,6 +70,7 @@ ctaphid_status_t ctaphid_payload_reconstructor(app_ctx_t *ctx)
         return CTAPHID_ERROR_INVALID_INPUT;
     }
 
+    // Check if Request Payload Length is valid
     if(ctx->request_payload_len == 0 || ctx->request_payload_len > MAX_PAYLOAD_SIZE)
     {
         LOG_ERR("Invalid Payload Length");

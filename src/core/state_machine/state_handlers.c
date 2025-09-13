@@ -236,6 +236,11 @@ void handle_responding(app_ctx_t *ctx, app_event_t event)
             }
             break;
 
+        case EVENT_REQUEST_RECEIVING_FINISHED:
+            LOG_INF("Transitioning to State: RECONSTRUCTING");
+            transition_to(STATE_RECONSTRUCTING);
+            break;
+
         case EVENT_RESPONSE_TRANSMITTED:
             LOG_INF("Transitioning to State: IDLE");
             transition_to(STATE_IDLE);

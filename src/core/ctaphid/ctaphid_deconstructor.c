@@ -101,6 +101,7 @@ ctaphid_status_t ctaphid_payload_deconstructor(app_ctx_t *ctx)
         LOG_ERR("Received invalid context");
         return CTAPHID_ERROR_INVALID_INPUT;
     }
+    
     // Check if Response Payload Length is valid
     if(ctx->response_payload_len == 0 || ctx->response_payload_len > MAX_PAYLOAD_SIZE)
     {

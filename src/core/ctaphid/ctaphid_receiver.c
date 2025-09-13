@@ -15,6 +15,7 @@
 #include "app_ctx.h"
 #include "app_events.h"
 #include "event_queue.h"
+#include "fast_path_responder.h"
 #include "ctaphid_receiver.h"
 
 uint16_t calculate_message_size(uint16_t req_payload_len)
@@ -106,8 +107,8 @@ ctaphid_status_t ctaphid_receive_packet(app_ctx_t *ctx, uint8_t *report, uint8_t
             ctx->active_request_cid = incoming_cid;
             ctx->request_cmd = cmd;
             ctx->request_payload_len = INIT_CMD_NONCE_LEN;
-            memcpy(ctx->request_payload, report[INIT_DATA_POS], INIT_NONCE_LEN);
-            event_queue_push(EVENT_PAYLOAD_RECONSTRUCTED);
+            memcpy(ctx->request_message, report, INIT_CMD_NONCE_LEN);
+            event_queue_push(EVENT_REQUEST_RECEIVING_FINISHED);
             return CTAPHID_OK;
         }
         // Checking if it is an INIT Packet with CANCEL Command
@@ -131,11 +132,9 @@ ctaphid_status_t ctaphid_receive_packet(app_ctx_t *ctx, uint8_t *report, uint8_t
         // If the packet is a CONT Packet
         else 
         {
-            ctx->non_active_incoming_cid = incoming_cid;
-            // ToDo: Add CTAPHID Specification Error codes in Header
-            ctx->remapped_error_code = ERR_INVALID_PAR;
-            // ToDo: Setup the Fast Responder Thread & Queue
-            // Push EVENT_ERROR_HANDLE to fast responder queue
+            LOG_WRN("Received a CONT Packet when system is IDLE");
+            LOG_INF("Responding via Fast Path Responder");
+            fast_responder_enqueue(incoming_cid, 0x00, ERR_INVALID_PAR);
             return CTAPHID_OK;
         }
     }
@@ -148,11 +147,9 @@ ctaphid_status_t ctaphid_receive_packet(app_ctx_t *ctx, uint8_t *report, uint8_t
             // Checking if it is an INIT Packet with INIT Command
             if (is_init_pkt && cmd == CTAPHID_INIT) 
             {
-                ctx->non_active_incoming_cid = incoming_cid;
-                // ToDo: Add CTAPHID Specification Error codes in Header
-                ctx->remapped_error_code = ERR_CHANNEL_BUSY;
-                // ToDo: Setup the Fast Responder Thread & Queue
-                // Push EVENT_ERROR_HANDLE to fast responder queue
+                LOG_WRN("Received an INIT Packet when system is currently processing the same CID");
+                LOG_INF("Responding via Fast Path Responder");
+                fast_responder_enqueue(incoming_cid, 0x00, ERR_CHANNEL_BUSY);
                 return CTAPHID_OK;
             } 
             // Checking if it is an INIT Packet with CANCEL Command
@@ -178,22 +175,18 @@ ctaphid_status_t ctaphid_receive_packet(app_ctx_t *ctx, uint8_t *report, uint8_t
             // Checking if it is an INIT Packet with INIT/MSG/CBOR/PING Command
             if (is_init_pkt && cmd == CTAPHID_INIT) 
             {
-                ctx->non_active_incoming_cid = incoming_cid;
-                // ToDo: Add CTAPHID Specification Error codes in Header
-                ctx->remapped_error_code = ERR_CHANNEL_BUSY;
-                // ToDo: Setup the Fast Responder Thread & Queue
-                // Push EVENT_ERROR_HANDLE to fast responder queue
+                LOG_WRN("Received an INIT Packet when system is currently processing another CID");
+                LOG_INF("Responding via Fast Path Responder");
+                fast_responder_enqueue(incoming_cid, 0x00, ERR_CHANNEL_BUSY);
                 return CTAPHID_OK;
 
             } 
             // If the packet is a CONT Packet
             else 
             {
-                ctx->non_active_incoming_cid = incoming_cid;
-                // ToDo: Add CTAPHID Specification Error codes in Header
-                ctx->remapped_error_code = ERR_INVALID_PAR;
-                // ToDo: Setup the Fast Responder Thread & Queue
-                // Push EVENT_ERROR_HANDLE to fast responder queue
+                LOG_WRN("Received a CONT Packet when system is currently processing another CID");
+                LOG_INF("Responding via Fast Path Responder");
+                fast_responder_enqueue(incoming_cid, 0x00, ERR_INVALID_PAR);
                 return CTAPHID_OK;
             }
         }
