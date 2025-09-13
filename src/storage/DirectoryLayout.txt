@@ -1,0 +1,28 @@
+src/
+├── storage
+│   ├── include
+│   │   ├── storage_service.h      // Public API (what app/features call)
+│   │   ├── storage_record.h       // Record format struct definitions
+│   │   ├── storage_index.h        // Index management API
+│   │   ├── storage_gc.h           // Garbage collection API
+│   │   ├── storage_superblock.h   // Superblock + boot metadata
+│   │   ├── storage_crypto.h       // Key hierarchy & wrapping APIs
+│   │   └── storage_layout.h       // Flash layout constants
+│   ├── record
+│   │   ├── storage_record.c       // Create, parse, validate records
+│   │   └── record_crc.c           // CRC32 helpers, trailer verification
+│   ├── index
+│   │   ├── storage_index.c        // UUID→physical mapping, lookup, insert
+│   │   └── index_scan.c           // Background scan/rebuild from log
+│   ├── gc
+│   │   └── storage_gc.c           // Segment reclaim, copy live records
+│   ├── superblock
+│   │   └── storage_superblock.c   // Boot counter, hash chain, root metadata
+│   ├── crypto
+│   │   └── storage_crypto.c       // KEK/DEK derivation, wrapping/unwrapping
+│   ├── layout
+│   │   └── storage_layout.c       // Partition map: SB, index, data, blob
+│   ├── service
+│   │   └── storage_service.c      // High-level API: put/get/delete/list
+│   └── tests
+│       └── storage_test.c         // Unit tests for records/index/gc
