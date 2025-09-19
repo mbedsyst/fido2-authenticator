@@ -3,7 +3,6 @@
 
 #include <stdint.h>
 
-int authenticator_make_credential_handler(const uint8_t *req, size_t req_len,
-                                          uint8_t *resp, size_t *resp_len);
+int authenticator_make_credential_handler(app_ctx_t *ctx);
 
 #endif // AUTHENTICATOR_MAKE_CREDENTIAL_H

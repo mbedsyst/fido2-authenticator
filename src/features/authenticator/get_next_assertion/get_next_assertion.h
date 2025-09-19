@@ -3,7 +3,6 @@
 
 #include <stdint.h>
 
-int authenticator_get_next_assertion_handler(const uint8_t *req, size_t req_len,
-                                             uint8_t *resp, size_t *resp_len);
+int authenticator_get_next_assertion_handler(app_ctx_t *ctx);
 
 #endif // AUTHENTICATOR_GET_NEXT_ASSERTION_H
