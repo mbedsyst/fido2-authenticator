@@ -4,6 +4,8 @@
 #include <stddef.h>
 #include <stdint.h>
 
+#include "crypto_common.h"
+
 typedef enum {
     CRYPTO_ECDSA_ALG_P256_SHA256,
     // could extend later (P384, SHA-512, etc.)
@@ -19,7 +21,7 @@ typedef enum {
  * @param sig      Output signature buffer.
  * @param sig_len  Input: size of sig buffer. Output: actual sig length.
  */
-int crypto_ecdsa_sign(uint32_t key_id,
+crypto_status_t crypto_ecdsa_sign(uint32_t key_id,
                       crypto_ecdsa_alg_t alg,
                       const uint8_t *hash, size_t hash_len,
                       uint8_t *sig, size_t *sig_len);
@@ -34,7 +36,7 @@ int crypto_ecdsa_sign(uint32_t key_id,
  * @param sig      Input signature buffer.
  * @param sig_len  Length of signature.
  */
-int crypto_ecdsa_verify(uint32_t key_id,
+crypto_status_t crypto_ecdsa_verify(uint32_t key_id,
                         crypto_ecdsa_alg_t alg,
                         const uint8_t *hash, size_t hash_len,
                         const uint8_t *sig, size_t sig_len);

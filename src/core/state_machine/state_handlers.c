@@ -132,6 +132,7 @@ void handle_processing(app_ctx_t *ctx, app_event_t event)
             int ret = 0;
         
             // Call the CTAPHID Command Handler.
+            ret = ctaphid_cmd_dispatcher(ctx);
             if(ret > 0)
             {
                 LOG_ERR("Payload Reconstructor failed with Error Code: %d", ret);

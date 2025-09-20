@@ -1,4 +1,5 @@
 #include "interfaces/crypto/hash/hmac.h"
+#include "interfaces/crypto/crypto_common.h"
 #include "crypto_status.h"
 
 #include <stdio.h>
@@ -153,7 +154,7 @@ static int crypto_finish(psa_key_id_t *key_id)
     return APP_SUCCESS;
 }
 
-int crypto_hmac_sign(crypto_hmac_alg_t alg,
+crypto_status_t crypto_hmac_sign(crypto_hmac_alg_t alg,
                      const uint8_t *key, 
                      size_t key_len,
                      const uint8_t *input, 
@@ -192,7 +193,7 @@ int crypto_hmac_sign(crypto_hmac_alg_t alg,
     return 0;
 }
 
-int crypto_hmac_verify(crypto_hmac_alg_t alg,
+crypto_status_t crypto_hmac_verify(crypto_hmac_alg_t alg,
                        const uint8_t *key, 
                        size_t key_len,
                        const uint8_t *input, 

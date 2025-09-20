@@ -14,7 +14,7 @@ int main(void)
 
     if (crypto_system_init() != CRYPTO_SUCCESS) 
     {
-        LOG_ERR("Crypto system initialization failed!");
+        LOG_ERR("Crypto Interface initialization failed!");
         return -1;
     }
     

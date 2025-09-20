@@ -1,7 +1,8 @@
 #include "interfaces/crypto/asymmetric/ecdsa.h"
+#include "interfaces/crypto/crypto_common.h"
 #include "crypto_status.h"
 
-int crypto_ecdsa_sign(uint32_t key_id,
+crypto_status_t crypto_ecdsa_sign(uint32_t key_id,
                       crypto_ecdsa_alg_t alg,
                       const uint8_t *hash, size_t hash_len,
                       uint8_t *sig, size_t *sig_len)
@@ -15,7 +16,7 @@ int crypto_ecdsa_sign(uint32_t key_id,
     return CRYPTO_ERR_NOT_IMPLEMENTED;
 }
 
-int crypto_ecdsa_verify(uint32_t key_id,
+crypto_status_t crypto_ecdsa_verify(uint32_t key_id,
                         crypto_ecdsa_alg_t alg,
                         const uint8_t *hash, size_t hash_len,
                         const uint8_t *sig, size_t sig_len)

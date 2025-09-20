@@ -4,10 +4,7 @@
 #include <stddef.h>
 #include <stdint.h>
 
-typedef enum {
-    CRYPTO_ECDH_ALG_P256,
-    // could extend later
-} crypto_ecdh_alg_t;
+#include "crypto_common.h"
 
 /**
  * Perform ECDH key agreement.
@@ -19,7 +16,7 @@ typedef enum {
  * @param shared        Output shared secret buffer.
  * @param shared_len    Input: size of buffer. Output: actual length.
  */
-int crypto_ecdh_derive(uint32_t priv_key_id,
+crypto_status_t crypto_ecdh_derive(uint32_t priv_key_id,
                        const uint8_t *peer_pub, size_t peer_pub_len,
                        crypto_ecdh_alg_t alg,
                        uint8_t *shared, size_t *shared_len);

@@ -4,12 +4,14 @@
 #include <stddef.h>
 #include <stdint.h>
 
+#include "crypto_common.h"
+
 typedef enum {
     CRYPTO_HASH_SHA256,
     CRYPTO_HASH_SHA512,
 } crypto_hash_alg_t;
 
-int crypto_hash(crypto_hash_alg_t alg,
+crypto_status_t crypto_hash(crypto_hash_alg_t alg,
                 const uint8_t *input, size_t input_len,
                 uint8_t *digest, size_t *digest_len);
 

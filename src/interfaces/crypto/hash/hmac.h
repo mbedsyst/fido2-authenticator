@@ -4,13 +4,15 @@
 #include <stddef.h>
 #include <stdint.h>
 
+#include "crypto_common.h"
+
 typedef enum 
 {
     CRYPTO_HMAC_SHA256,
 } crypto_hmac_alg_t;
 
 
-int crypto_hmac_sign(crypto_hmac_alg_t alg,
+crypto_status_t crypto_hmac_sign(crypto_hmac_alg_t alg,
                        const uint8_t *key, 
                        size_t key_len,
                        const uint8_t *input, 
@@ -18,7 +20,7 @@ int crypto_hmac_sign(crypto_hmac_alg_t alg,
                        uint8_t *mac, 
                        size_t *mac_len)
 
-int crypto_hmac_verify(crypto_hmac_alg_t alg,
+crypto_status_t crypto_hmac_verify(crypto_hmac_alg_t alg,
                         const uint8_t *key, 
                         size_t key_len,
                         const uint8_t *input, 

@@ -1,4 +1,5 @@
 #include "interfaces/crypto/symmetric/cipher.h"
+#include "interfaces/crypto/crypto_common.h"
 #include "crypto_status.h"
 
 #include <stdio.h>
@@ -152,7 +153,7 @@ static int crypto_destroy_key(psa_key_id_t *key_id)
 }
 
 
-int crypto_cipher_encrypt(const uint8_t *key, size_t key_len
+crypto_status_t crypto_cipher_encrypt(const uint8_t *key, size_t key_len
                           const uint8_t *iv, size_t iv_len,
                           const uint8_t *aad, size_t aad_len,
                           const uint8_t *input, size_t input_len,
@@ -190,7 +191,7 @@ int crypto_cipher_encrypt(const uint8_t *key, size_t key_len
 	return 0;
 }
 
-int crypto_cipher_decrypt(const uint8_t *key, size_t key_len,
+crypto_status_t crypto_cipher_decrypt(const uint8_t *key, size_t key_len,
                           const uint8_t *iv, size_t iv_len,
                           const uint8_t *aad, size_t aad_len,
                           const uint8_t *input, size_t input_len,

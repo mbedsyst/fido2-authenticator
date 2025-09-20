@@ -4,12 +4,14 @@
 #include <stddef.h>
 #include <stdint.h>
 
+#include "crypto_common.h"
+
 typedef enum 
 {
     CRYPTO_KDF_HKDF_SHA256,
 } crypto_kdf_alg_t;
 
-int crypto_kdf_hkdf(crypto_kdf_alg_t alg,
+crypto_status_t crypto_kdf_hkdf(crypto_kdf_alg_t alg,
                     const uint8_t *salt, size_t salt_len,
                     const uint8_t *ikm, size_t ikm_len,
                     const uint8_t *info, size_t info_len,
