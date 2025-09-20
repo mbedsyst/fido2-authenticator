@@ -1,4 +1,5 @@
 #include "interfaces/crypto/hash/hash.h"
+#include "interfaces/crypto/crypto_common.h"
 #include "crypto_status.h"
 
 #include <stdio.h>
@@ -14,7 +15,7 @@
 
 LOG_MODULE_REGISTER(crypto_hash_interface);
 
-int crypto_hash(crypto_hash_alg_t alg,
+crypto_status_t crypto_hash(crypto_hash_alg_t alg,
                 const uint8_t *input, 
                 size_t input_len,
                 uint8_t *digest, 

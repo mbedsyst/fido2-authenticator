@@ -1,4 +1,5 @@
 #include "interfaces/crypto/rng/rng.h"
+#include "interfaces/crypto/crypto_common.h"
 #include "crypto_status.h"
 
 #include <stdio.h>
@@ -12,7 +13,7 @@
 
 LOG_MODULE_REGISTER(crypto_rng_interface);
 
-int crypto_rng(uint8_t *output, size_t output_len)
+crypto_status_t crypto_rng(uint8_t *output, size_t output_len)
 {
     psa_status_t status = psa_generate_random(output, output_len);
     if (status != PSA_SUCCESS) 

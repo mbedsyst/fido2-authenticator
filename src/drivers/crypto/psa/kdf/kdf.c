@@ -1,4 +1,5 @@
 #include "interfaces/crypto/kdf/kdf.h"
+#include "interfaces/crypto/crypto_common.h"
 #include "crypto_status.h"
 
 #include <stdio.h>
@@ -162,7 +163,7 @@ static int crypto_destroy_output_key(psa_key_id_t *output_key_id)
 	return APP_SUCCESS;
 }
 
-int crypto_kdf_hkdf(crypto_kdf_alg_t alg,
+crypto_status_t crypto_kdf_hkdf(crypto_kdf_alg_t alg,
 					const uint8_t *salt, size_t salt_len,
 					const uint8_t *ikm, size_t ikm_len,
 					const uint8_t *info, size_t info_len,
