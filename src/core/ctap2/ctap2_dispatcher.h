@@ -19,6 +19,6 @@ void ctap2_dispatcher_init(void);
  * @param ctx Pointer to the global application context.
  * @return 0 on success, negative error code on failure.
  */
-int ctap2_dispatch_request(app_ctx_t *ctx);
+ctap2_status_t ctap2_dispatch_request(app_ctx_t *ctx);
 
 #endif // CTAP2_DISPATCHER_H

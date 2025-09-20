@@ -20,7 +20,7 @@ void ctap2_dispatcher_init(void) {
     // For now, nothing needed. Placeholder if dispatcher state is required.
 }
 
-int ctap2_dispatch_request(app_ctx_t *ctx)
+ctap2_status_t ctap2_dispatch_request(app_ctx_t *ctx)
 {
     if (!ctx || ctx->request_payload_len == 0) {
         return -1; // invalid input

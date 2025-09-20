@@ -47,8 +47,15 @@ ctaphid_status_t ctaphid_cmd_cbor(app_ctx_t *ctx)
         LOG_ERR("Received Invalid Input");
         return CTAPHID_ERROR_INVALID_INPUT;
     }
+
+    int ret;
     
     // ToDo: Write the CBOR Command Logic
+    ret = ctap2_dispatch_request(ctx);
+    if(ret > 0)
+    {
+        LOG_ERR("Unknown Error");
+    }
 }
 
 
