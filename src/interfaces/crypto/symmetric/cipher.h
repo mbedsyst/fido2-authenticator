@@ -4,20 +4,14 @@
 #include <stddef.h>
 #include <stdint.h>
 
-typedef enum {
-    CRYPTO_CIPHER_AES_GCM,
-} crypto_cipher_alg_t;
-
-int crypto_cipher_encrypt(uint32_t key_id,
-                          crypto_cipher_alg_t alg,
+int crypto_cipher_encrypt(const uint8_t *key, size_t key_len
                           const uint8_t *iv, size_t iv_len,
                           const uint8_t *aad, size_t aad_len,
                           const uint8_t *input, size_t input_len,
                           uint8_t *output, size_t *output_len,
                           uint8_t *tag, size_t tag_len);
 
-int crypto_cipher_decrypt(uint32_t key_id,
-                          crypto_cipher_alg_t alg,
+int crypto_cipher_decrypt(const uint8_t *key, size_t key_len,
                           const uint8_t *iv, size_t iv_len,
                           const uint8_t *aad, size_t aad_len,
                           const uint8_t *input, size_t input_len,
