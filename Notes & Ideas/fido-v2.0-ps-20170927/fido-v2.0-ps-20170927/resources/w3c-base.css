@@ -1,0 +1,304 @@
+/*
+   Copyright 1997-2003 W3C (MIT, ERCIM, Keio). All Rights Reserved.
+   The following software licensing rules apply:
+   http://www.w3.org/Consortium/Legal/copyright-software */
+
+/* $Id: base.css,v 1.27 2013-01-14 15:02:50 denis Exp $ */
+
+body {
+  padding: 2em 1em 2em 2em;
+  margin: 0;
+  font-family: sans-serif;
+  color: black;
+  counter-reset: listing;
+}
+
+:link {
+  color: #00C;
+}
+
+:visited {
+  color: #609;
+}
+
+a:active {
+  color: #C00;
+}
+
+:link, :visited, a:active {
+  background: transparent;
+}
+
+a:link img, a:visited img { /* no border on img links */
+  border-style: none 
+}
+
+#toplogo { 
+  padding: 2em; 
+}
+
+li {
+  padding-top: .2em;
+  padding-bottom: .2em;
+}
+
+table.threats {
+  width: 100%;
+  border-width: 1px;
+  border-style: solid;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-bottom-color: #364e50;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #364e50;
+  border-collapse: collapse;
+}
+
+table.threats th {
+  background-color: #ffffff;
+  color: #000000;
+  padding-left: .5em;
+  padding-right: .5em;
+}
+
+table.threats td {
+  border-width: 1px;
+  border-style: solid;
+  padding: .5em;
+}
+
+table.threats tr.subhead {
+  background-color: #ddd;
+}
+table.threats td.subhead {
+  background-color: #ddd;
+}
+
+tr.reqclassifier {
+  background-color: #C0C0C0;
+  font: 40% sans-serif;
+}
+
+td.reqclassifier {
+  background-color: #D3D0C9;
+  font: 70% sans-serif;
+}
+
+td.rowgroup {
+  border-width: 1px;
+  border-style: solid;
+}
+
+table.requirement {
+  width: 100%;
+  border-width: 1px;
+  border-style: solid;
+  border-bottom-style: solid;
+  border-bottom-width: .3em;
+  border-bottom-color: #364e50;
+  border-top-style: solid;
+  border-top-width: .3em;
+  border-top-color: #364e50;
+  border-collapse: collapse;
+}
+ 
+table.requirement th {
+  border-width: 1px;
+  border-style: solid;
+  background-color: #C0C0C0;
+  padding-left: .5em;
+  padding-right: .5em;
+}
+
+table.requirement td {
+  border-width: 1px;
+  border-style: solid;
+  padding: .5em;
+}
+
+table.requirement tr.subhead {
+  background-color: #ddd;
+}
+table.requirement td.subhead {
+  background-color: #ddd;
+}
+
+table.tlv {
+  width: 100%;
+  border-width: 1px;
+  border-style: solid;
+
+  border-top-style:    solid;
+  border-bottom-style: solid;
+  
+  border-top-color:    #364e50;
+  border-bottom-color: #364e50;
+
+  border-top-width:    .3em;
+  border-bottom-width: .3em;
+
+  border-collapse: collapse;
+}
+ 
+table.tlv th {
+  background-color: #364e50;
+  color: #ffffff;
+  padding-left: .5em;
+  padding-right: .5em;
+  text-shadow: 1px 1px 1px #333;
+}
+
+table.tlv td {
+  border-width: 1px;
+  border-style: solid;
+  padding: .5em;
+}
+
+table.tlv tr.subhead, table.tlv td.subhead {
+  background-color: #ddd;
+}
+
+h1, h2, h3, h4, h5, h6 { text-align: left }
+
+h1 { font: 170% sans-serif }
+h2 { font: 140% sans-serif }
+h3 { font: 120% sans-serif }
+h4 { font: bold 100% sans-serif }
+h5 { font: italic 100% sans-serif }
+h6 { font: small-caps 100% sans-serif }
+
+.hide { display: none }
+
+div.head { margin-bottom: 1em }
+div.head h1 { margin-top: 2em; clear: both }
+div.head table { margin-left: 2em; margin-top: 2em }
+
+p.copyright, p.copyright small {
+  font-size: small
+}
+
+pre {
+  margin-left: 2em
+}
+
+.listing:before {
+  counter-increment: listing;
+  content: "LISTING " counter(listing)  ": " attr(title);
+  color: steelblue;
+  margin-bottom: 1em;
+  display: block;
+  font-family: sans-serif;
+}
+
+.listing { 
+  margin-top: 1em;
+  margin-bottom: 1em;
+  margin-left: 2em;
+  color: #52595d;
+  border-left-width: .5em;
+  border-left-style: solid;
+  border-color: steelblue;;
+  padding: .5em;
+  background: url(blueprint-dark.png) repeat;
+}
+
+.code { 
+  margin-left: 2em;
+  color: #52595d;
+  border-radius: 3px;
+  background-clip: padding-box;
+  border: 1px solid #ccc;
+  background-color: rgba(200,200,200,0.5);
+  padding: 3px 3px;
+  margin: 0px;
+}
+
+dt {
+  font-weight: bold
+}
+
+@media aural {  
+  h1, h2, h3 { stress: 20; richness: 90 }
+  .hide { speak: none }
+  p.copyright { volume: x-soft; speech-rate: x-fast }
+  dt { pause-before: 63ms }
+  pre { speak-punctuation: code } 
+}
+
+.normative:before {
+  content: "NORMATIVE";
+  color: #df5f30;
+  margin-bottom: 1em;
+  display: block;
+}
+
+.normative {
+
+  padding: .5em;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  border-left-width: .5em;
+  border-left-style: solid;
+  border-color: #df5f30;
+  background-color: #ffcfa0;
+  background-color: rgba(255,207,160,0.5);
+
+}
+
+div.example {
+  background-color: rgba(252,250,238,0.75);
+}
+
+div.note {
+  background-color: rgba(233,251,233,0.5);
+}
+
+div.issue {
+  background-color: rgba(251,233,233,0.75);
+}
+
+/* ----- Ribbon ----- */
+.ribbon-wrapper {
+  width: 200px;
+  height: 250px;
+  overflow: hidden;
+  position: absolute;
+  top: -3px;
+  right: -8px;
+}
+
+.ribbon {
+  font: bold 15px Sans-Serif;
+  color: #fff;
+  text-align: center;
+  -webkit-transform: rotate(45deg);
+  -moz-transform:    rotate(45deg);
+  -ms-transform:     rotate(45deg);
+  -o-transform:      rotate(45deg);
+  position: relative;
+  padding: 7px 0;
+  left: -40px;
+  top: 75px;
+  width: 300px;
+  background-color: #ff0000;
+  -webkit-box-shadow: 0px 0px 3px rgba(0,0,0,0.3);
+  -moz-box-shadow:    0px 0px 3px rgba(0,0,0,0.3);
+  box-shadow:         0px 0px 3px rgba(0,0,0,0.3);
+}
+
+.ribbon:before, .ribbon:after {
+  content: "";
+  border-top:   3px solid #6e0089;   
+  border-left:  3px solid transparent;
+  border-right: 3px solid transparent;
+  position:absolute;
+  bottom: -3px;
+}
+
+.ribbon:before {
+  left: 0;
+}
+.ribbon:after {
+  right: 0;
+}

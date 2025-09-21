@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generiert durch Microsoft Visio, SVG Export FIDO-2-Native-API-Arch.svg Page-1 -->
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events"
+		xmlns:v="http://schemas.microsoft.com/visio/2003/SVGExtensions/" width="11.6929in" height="8.26772in"
+		viewBox="0 0 841.89 595.276" xml:space="preserve" color-interpolation-filters="sRGB" class="st13">
+	<v:documentProperties v:langID="1031" v:metric="true" v:viewMarkup="false">
+		<v:userDefs>
+			<v:ud v:nameU="msvSubprocessMaster" v:prompt="" v:val="VT4(Rectangle)"/>
+			<v:ud v:nameU="msvNoAutoConnect" v:val="VT0(1):26"/>
+		</v:userDefs>
+	</v:documentProperties>
+
+	<style type="text/css">
+	<![CDATA[
+		.st1 {fill:#5b9bd5;stroke:#c7c8c8;stroke-width:0.25}
+		.st2 {fill:#feffff;font-family:Calibri;font-size:1.5em}
+		.st3 {fill:#a6a6a6;stroke:#a6a6a6;stroke-width:2}
+		.st4 {fill:#a5a5a5;stroke:#c7c8c8;stroke-width:0.25}
+		.st5 {font-size:1em}
+		.st6 {fill:#000000;stroke:#ff0000;stroke-width:2}
+		.st7 {fill:#feffff;font-family:Calibri;font-size:0.916672em}
+		.st8 {fill:#a6a6a6;stroke:#ff0000;stroke-width:2}
+		.st9 {fill:#ff0000;stroke:#ff0000;stroke-width:2}
+		.st10 {fill:#ff0000;stroke:#c7c8c8;stroke-width:0.25}
+		.st11 {fill:none;stroke:none;stroke-width:0.25}
+		.st12 {fill:#5b9bd5;font-family:Calibri;font-size:1.5em}
+		.st13 {fill:none;fill-rule:evenodd;font-size:12px;overflow:visible;stroke-linecap:square;stroke-miterlimit:3}
+	]]>
+	</style>
+
+	<g v:mID="0" v:index="1" v:groupContext="foregroundPage">
+		<v:userDefs>
+			<v:ud v:nameU="msvThemeOrder" v:val="VT0(0):26"/>
+		</v:userDefs>
+		<title>Zeichenblatt-1</title>
+		<v:pageProperties v:drawingScale="0.0393701" v:pageScale="0.0393701" v:drawingUnits="24" v:shadowOffsetX="8.50394"
+				v:shadowOffsetY="-8.50394"/>
+		<v:layer v:name="Verbinder" v:index="0"/>
+		<g id="shape1-1" v:mID="1" v:groupContext="shape" transform="translate(141.732,-421.654)">
+			<title>Rechteck, auf gleicher Seite liegende Ecken abgeschnitten</title>
+			<desc>RP App</desc>
+			<v:userDefs>
+				<v:ud v:nameU="CTypeTopLeftSnip" v:prompt="" v:val="VT0(1):5"/>
+				<v:ud v:nameU="CTypeTopRightSnip" v:prompt="" v:val="VT0(1):5"/>
+				<v:ud v:nameU="CTypeBotLeftSnip" v:prompt="" v:val="VT0(1):5"/>
+				<v:ud v:nameU="CTypeBotRightSnip" v:prompt="" v:val="VT0(0):5"/>
+				<v:ud v:nameU="CornerLockHoriz" v:prompt="" v:val="VT0(1):5"/>
+				<v:ud v:nameU="CornerLockVert" v:prompt="" v:val="VT0(0):5"/>
+				<v:ud v:nameU="CornerLockDiag" v:prompt="" v:val="VT0(0):5"/>
+				<v:ud v:nameU="TopLeftOffset" v:prompt="" v:val="VT0(0.15748031496063):24"/>
+				<v:ud v:nameU="TopRightOffset" v:prompt="" v:val="VT0(0.15748031496063):24"/>
+				<v:ud v:nameU="BotLeftOffset" v:prompt="" v:val="VT0(0):24"/>
+				<v:ud v:nameU="BotRightOffset" v:prompt="" v:val="VT0(0):24"/>
+				<v:ud v:nameU="visVersion" v:prompt="" v:val="VT0(15):26"/>
+				<v:ud v:nameU="TopLeftOffset" v:prompt="" v:val="VT0(0.43307086614173):1"/>
+				<v:ud v:nameU="TopRightOffset" v:prompt="" v:val="VT0(0.43307086614173):1"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="77.9528" cy="536.811" width="155.91" height="116.929"/>
+			<path d="M0 595.28 L155.91 595.28 L155.91 509.53 L124.72 478.35 L31.18 478.35 L0 509.53 L0 595.28 Z" class="st1"/>
+			<text x="51.72" y="542.21" class="st2" v:langID="1031"><v:paragraph v:horizAlign="1"/><v:tabList/>RP App</text>		</g>
+		<g id="shape2-4" v:mID="2" v:groupContext="shape" transform="translate(467.717,-421.654)">
+			<title>Rechteck, auf gleicher Seite liegende Ecken abgeschnitten.2</title>
+			<desc>RP Server</desc>
+			<v:userDefs>
+				<v:ud v:nameU="CTypeTopLeftSnip" v:prompt="" v:val="VT0(1):5"/>
+				<v:ud v:nameU="CTypeTopRightSnip" v:prompt="" v:val="VT0(1):5"/>
+				<v:ud v:nameU="CTypeBotLeftSnip" v:prompt="" v:val="VT0(1):5"/>
+				<v:ud v:nameU="CTypeBotRightSnip" v:prompt="" v:val="VT0(0):5"/>
+				<v:ud v:nameU="CornerLockHoriz" v:prompt="" v:val="VT0(1):5"/>
+				<v:ud v:nameU="CornerLockVert" v:prompt="" v:val="VT0(0):5"/>
+				<v:ud v:nameU="CornerLockDiag" v:prompt="" v:val="VT0(0):5"/>
+				<v:ud v:nameU="TopLeftOffset" v:prompt="" v:val="VT0(0.15748031496063):24"/>
+				<v:ud v:nameU="TopRightOffset" v:prompt="" v:val="VT0(0.15748031496063):24"/>
+				<v:ud v:nameU="BotLeftOffset" v:prompt="" v:val="VT0(0):24"/>
+				<v:ud v:nameU="BotRightOffset" v:prompt="" v:val="VT0(0):24"/>
+				<v:ud v:nameU="visVersion" v:prompt="" v:val="VT0(15):26"/>
+				<v:ud v:nameU="TopLeftOffset" v:prompt="" v:val="VT0(0.43307086614173):1"/>
+				<v:ud v:nameU="TopRightOffset" v:prompt="" v:val="VT0(0.43307086614173):1"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="77.9528" cy="536.811" width="155.91" height="116.929"/>
+			<path d="M0 595.28 L155.91 595.28 L155.91 509.53 L124.72 478.35 L31.18 478.35 L0 509.53 L0 595.28 Z" class="st1"/>
+			<text x="42.95" y="542.21" class="st2" v:langID="1031"><v:paragraph v:horizAlign="1"/><v:tabList/>RP Server</text>		</g>
+		<g id="shape20-7" v:mID="20" v:groupContext="shape" transform="translate(297.638,-480.118)">
+			<title>Einfacher Doppelpfeil.20</title>
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+				<v:ud v:nameU="ArrowType" v:prompt="" v:val="VT0(3):26"/>
+			</v:userDefs>
+			<path d="M0 595.28 L11.34 580.39 L11.34 587.83 L158.74 587.83 L158.74 580.39 L170.08 595.28 L158.74 610.16 L158.74 602.72
+						 L11.34 602.72 L11.34 610.16 L0 595.28 Z" class="st3"/>
+		</g>
+		<g id="shape3-9" v:mID="3" v:groupContext="shape" transform="translate(467.717,-238.287)">
+			<title>Rechteck</title>
+			<desc>FIDO Server</desc>
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="77.9528" cy="536.811" width="155.91" height="116.929"/>
+			<rect x="0" y="478.346" width="155.906" height="116.929" class="st4"/>
+			<text x="34.59" y="542.21" class="st2" v:langID="1031"><v:paragraph v:horizAlign="1"/><v:tabList/>FIDO Server</text>		</g>
+		<g id="shape4-12" v:mID="4" v:groupContext="shape" transform="translate(141.732,-165.65)">
+			<title>Rechteck.4</title>
+			<desc>Platform (OS, Browser)</desc>
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="77.9528" cy="500.492" width="155.91" height="189.567"/>
+			<rect x="0" y="405.709" width="155.906" height="189.567" class="st4"/>
+			<text x="46.09" y="495.09" class="st2" v:langID="1031"><v:paragraph v:horizAlign="1"/><v:tabList/>Platform <v:lf/><tspan
+						x="27.77" dy="1.2em" class="st5">(</tspan>OS, Browser)</text>		</g>
+		<g id="shape5-16" v:mID="5" v:groupContext="shape" transform="translate(141.732,-47.126)">
+			<title>Rechteck, abgerundete Ecken</title>
+			<desc>Authenticator</desc>
+			<v:userDefs>
+				<v:ud v:nameU="CTypeTopLeftSnip" v:prompt="" v:val="VT0(0):5"/>
+				<v:ud v:nameU="CTypeTopRightSnip" v:prompt="" v:val="VT0(0):5"/>
+				<v:ud v:nameU="CTypeBotLeftSnip" v:prompt="" v:val="VT0(0):5"/>
+				<v:ud v:nameU="CTypeBotRightSnip" v:prompt="" v:val="VT0(0):5"/>
+				<v:ud v:nameU="CornerLockHoriz" v:prompt="" v:val="VT0(0):5"/>
+				<v:ud v:nameU="CornerLockVert" v:prompt="" v:val="VT0(0):5"/>
+				<v:ud v:nameU="CornerLockDiag" v:prompt="" v:val="VT0(0):5"/>
+				<v:ud v:nameU="TopLeftOffset" v:prompt="" v:val="VT0(0.15748031496063):24"/>
+				<v:ud v:nameU="TopRightOffset" v:prompt="" v:val="VT0(0.15748031496063):24"/>
+				<v:ud v:nameU="BotLeftOffset" v:prompt="" v:val="VT0(0.15748031496063):24"/>
+				<v:ud v:nameU="BotRightOffset" v:prompt="" v:val="VT0(0.15748031496063):24"/>
+				<v:ud v:nameU="visVersion" v:prompt="" v:val="VT0(15):26"/>
+				<v:ud v:nameU="TopLeftOffset" v:prompt="" v:val="VT0(0.098425196850393):1"/>
+				<v:ud v:nameU="TopRightOffset" v:prompt="" v:val="VT0(0.098425196850393):1"/>
+				<v:ud v:nameU="BotLeftOffset" v:prompt="" v:val="VT0(0.098425196850393):1"/>
+				<v:ud v:nameU="BotRightOffset" v:prompt="" v:val="VT0(0.098425196850393):1"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="35.4331" cy="568.701" width="70.87" height="53.1496"/>
+			<path d="M7.09 595.28 L63.78 595.28 A7.0865 7.0865 -180 0 0 70.87 588.19 L70.87 549.21 A7.0865 7.0865 -180 0 0 63.78
+						 542.13 L7.09 542.13 A7.0865 7.0865 -180 0 0 0 549.21 L0 588.19 A7.0865 7.0865 -180 0 0 7.09 595.28 Z"
+					class="st6"/>
+			<text x="4.28" y="572" class="st7" v:langID="1031"><v:paragraph v:horizAlign="1"/><v:tabList/>Authenticator</text>		</g>
+		<g id="shape6-19" v:mID="6" v:groupContext="shape" transform="translate(219.685,-172.736)">
+			<title>Rechteck, abgerundete Ecken.6</title>
+			<desc>Authenticator</desc>
+			<v:userDefs>
+				<v:ud v:nameU="CTypeTopLeftSnip" v:prompt="" v:val="VT0(0):5"/>
+				<v:ud v:nameU="CTypeTopRightSnip" v:prompt="" v:val="VT0(0):5"/>
+				<v:ud v:nameU="CTypeBotLeftSnip" v:prompt="" v:val="VT0(0):5"/>
+				<v:ud v:nameU="CTypeBotRightSnip" v:prompt="" v:val="VT0(0):5"/>
+				<v:ud v:nameU="CornerLockHoriz" v:prompt="" v:val="VT0(0):5"/>
+				<v:ud v:nameU="CornerLockVert" v:prompt="" v:val="VT0(0):5"/>
+				<v:ud v:nameU="CornerLockDiag" v:prompt="" v:val="VT0(0):5"/>
+				<v:ud v:nameU="TopLeftOffset" v:prompt="" v:val="VT0(0.15748031496063):24"/>
+				<v:ud v:nameU="TopRightOffset" v:prompt="" v:val="VT0(0.15748031496063):24"/>
+				<v:ud v:nameU="BotLeftOffset" v:prompt="" v:val="VT0(0.15748031496063):24"/>
+				<v:ud v:nameU="BotRightOffset" v:prompt="" v:val="VT0(0.15748031496063):24"/>
+				<v:ud v:nameU="visVersion" v:prompt="" v:val="VT0(15):26"/>
+				<v:ud v:nameU="TopLeftOffset" v:prompt="" v:val="VT0(0.098425196850393):1"/>
+				<v:ud v:nameU="TopRightOffset" v:prompt="" v:val="VT0(0.098425196850393):1"/>
+				<v:ud v:nameU="BotLeftOffset" v:prompt="" v:val="VT0(0.098425196850393):1"/>
+				<v:ud v:nameU="BotRightOffset" v:prompt="" v:val="VT0(0.098425196850393):1"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="35.4331" cy="568.701" width="70.87" height="53.1496"/>
+			<path d="M7.09 595.28 L63.78 595.28 A7.0865 7.0865 -180 0 0 70.87 588.19 L70.87 549.21 A7.0865 7.0865 -180 0 0 63.78
+						 542.13 L7.09 542.13 A7.0865 7.0865 -180 0 0 0 549.21 L0 588.19 A7.0865 7.0865 -180 0 0 7.09 595.28 Z"
+					class="st6"/>
+			<text x="4.28" y="572" class="st7" v:langID="1031"><v:paragraph v:horizAlign="1"/><v:tabList/>Authenticator</text>		</g>
+		<g id="shape21-22" v:mID="21" v:groupContext="shape" transform="translate(1140.94,173.622) rotate(90)">
+			<title>Einfacher Doppelpfeil.21</title>
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+				<v:ud v:nameU="ArrowType" v:prompt="" v:val="VT0(3):26"/>
+			</v:userDefs>
+			<path d="M0 595.28 L11.34 580.39 L11.34 587.83 L55.1 587.83 L55.1 580.39 L66.44 595.28 L55.1 610.16 L55.1 602.72 L11.34
+						 602.72 L11.34 610.16 L0 595.28 Z" class="st3"/>
+		</g>
+		<g id="shape22-24" v:mID="22" v:groupContext="shape" transform="translate(814.961,173.622) rotate(90)">
+			<title>Einfacher Doppelpfeil.22</title>
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+				<v:ud v:nameU="ArrowType" v:prompt="" v:val="VT0(3):26"/>
+			</v:userDefs>
+			<path d="M0 595.28 L11.34 580.39 L11.34 587.83 L55.1 587.83 L55.1 580.39 L66.44 595.28 L55.1 610.16 L55.1 602.72 L11.34
+						 602.72 L11.34 610.16 L0 595.28 Z" class="st8"/>
+		</g>
+		<g id="shape23-26" v:mID="23" v:groupContext="shape" transform="translate(772.441,429.626) rotate(90)">
+			<title>Einfacher Doppelpfeil.23</title>
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+				<v:ud v:nameU="ArrowType" v:prompt="" v:val="VT0(3):26"/>
+			</v:userDefs>
+			<path d="M0 595.28 L11.34 580.39 L11.34 587.83 L54.04 587.83 L54.04 580.39 L65.37 595.28 L54.04 610.16 L54.04 602.72
+						 L11.34 602.72 L11.34 610.16 L0 595.28 Z" class="st9"/>
+		</g>
+		<g id="shape8-28" v:mID="8" v:groupContext="shape" transform="translate(348.661,-474.094)">
+			<title>Kreis</title>
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+			</v:userDefs>
+			<path d="M0 588.9 A6.37795 6.37795 0 1 1 12.76 588.9 A6.37795 6.37795 0 0 1 0 588.9 Z" class="st10"/>
+		</g>
+		<g id="shape12-30" v:mID="12" v:groupContext="shape" transform="translate(364.961,-474.094)">
+			<title>Kreis.12</title>
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+			</v:userDefs>
+			<path d="M0 588.9 A6.37795 6.37795 0 1 1 12.76 588.9 A6.37795 6.37795 0 0 1 0 588.9 Z" class="st10"/>
+		</g>
+		<g id="shape24-32" v:mID="24" v:groupContext="shape" transform="translate(513.78,1020.47) rotate(180)">
+			<title>Einfacher Doppelpfeil.24</title>
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+				<v:ud v:nameU="ArrowType" v:prompt="" v:val="VT0(3):26"/>
+			</v:userDefs>
+			<path d="M0 595.28 L11.34 580.39 L11.34 587.83 L24.09 587.83 L24.09 580.39 L35.43 595.28 L24.09 610.16 L24.09 602.72
+						 L11.34 602.72 L11.34 610.16 L0 595.28 Z" class="st3"/>
+		</g>
+		<g id="shape25-34" v:mID="25" v:groupContext="shape" transform="translate(513.78,1062.99) rotate(180)">
+			<title>Einfacher Doppelpfeil.25</title>
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+				<v:ud v:nameU="ArrowType" v:prompt="" v:val="VT0(3):26"/>
+			</v:userDefs>
+			<path d="M0 595.28 L11.34 580.39 L11.34 587.83 L24.09 587.83 L24.09 580.39 L35.43 595.28 L24.09 610.16 L24.09 602.72
+						 L11.34 602.72 L11.34 610.16 L0 595.28 Z" class="st8"/>
+		</g>
+		<g id="shape26-36" v:mID="26" v:groupContext="shape" transform="translate(513.78,1105.51) rotate(180)">
+			<title>Einfacher Doppelpfeil.26</title>
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+				<v:ud v:nameU="ArrowType" v:prompt="" v:val="VT0(3):26"/>
+			</v:userDefs>
+			<path d="M0 595.28 L11.34 580.39 L11.34 587.83 L24.09 587.83 L24.09 580.39 L35.43 595.28 L24.09 610.16 L24.09 602.72
+						 L11.34 602.72 L11.34 610.16 L0 595.28 Z" class="st9"/>
+		</g>
+		<g id="shape27-38" v:mID="27" v:groupContext="shape" transform="translate(531.496,-155.906)">
+			<title>Tabelle.27</title>
+			<desc>Not standardized</desc>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="138.189" cy="581.102" width="276.38" height="28.3465"/>
+			<rect x="0" y="566.929" width="276.378" height="28.3465" class="st11"/>
+			<text x="4" y="586.5" class="st12" v:langID="1033"><v:paragraph/><v:tabList/>Not standardized</text>		</g>
+		<g id="shape44-41" v:mID="44" v:groupContext="shape" transform="translate(531.496,-113.386)">
+			<title>Tabelle.44</title>
+			<desc>Functionality requirements</desc>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="138.189" cy="581.102" width="276.38" height="28.3465"/>
+			<rect x="0" y="566.929" width="276.378" height="28.3465" class="st11"/>
+			<text x="4" y="586.5" class="st12" v:langID="1031"><v:paragraph/><v:tabList/>Functionality requirements</text>		</g>
+		<g id="shape45-44" v:mID="45" v:groupContext="shape" transform="translate(531.496,-70.8661)">
+			<title>Tabelle.45</title>
+			<desc>Fully standardized</desc>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="138.189" cy="581.102" width="276.38" height="28.3465"/>
+			<rect x="0" y="566.929" width="276.378" height="28.3465" class="st11"/>
+			<text x="4" y="586.5" class="st12" v:langID="1031"><v:paragraph/><v:tabList/>Fully standardized</text>		</g>
+		<g id="shape46-47" v:mID="46" v:groupContext="shape" transform="translate(489.685,-36.1417)">
+			<title>Kreis.46</title>
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+			</v:userDefs>
+			<path d="M0 588.9 A6.37795 6.37795 0 1 1 12.76 588.9 A6.37795 6.37795 0 0 1 0 588.9 Z" class="st10"/>
+		</g>
+		<g id="shape47-49" v:mID="47" v:groupContext="shape" transform="translate(531.496,-28.3465)">
+			<title>Tabelle.47</title>
+			<desc>Cryptographic objects standardized</desc>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="138.189" cy="581.102" width="276.38" height="28.3465"/>
+			<rect x="0" y="566.929" width="276.378" height="28.3465" class="st11"/>
+			<text x="4" y="586.5" class="st12" v:langID="1031"><v:paragraph/><v:tabList/>Cryptographic objects standardized</text>		</g>
+		<g id="shape48-52" v:mID="48" v:groupContext="shape" transform="translate(-368.504,226.772) rotate(-90)">
+			<title>Kreis.48</title>
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+			</v:userDefs>
+			<path d="M0 588.9 A6.37795 6.37795 0 1 1 12.76 588.9 A6.37795 6.37795 0 0 1 0 588.9 Z" class="st10"/>
+		</g>
+		<g id="shape49-54" v:mID="49" v:groupContext="shape" transform="translate(-368.504,210.472) rotate(-90)">
+			<title>Kreis.49</title>
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+			</v:userDefs>
+			<path d="M0 588.9 A6.37795 6.37795 0 1 1 12.76 588.9 A6.37795 6.37795 0 0 1 0 588.9 Z" class="st10"/>
+		</g>
+		<g id="shape50-56" v:mID="50" v:groupContext="shape" transform="translate(240.945,-220.394)">
+			<title>Kreis.50</title>
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+			</v:userDefs>
+			<path d="M0 588.9 A6.37795 6.37795 0 1 1 12.76 588.9 A6.37795 6.37795 0 0 1 0 588.9 Z" class="st10"/>
+		</g>
+		<g id="shape51-58" v:mID="51" v:groupContext="shape" transform="translate(257.244,-220.394)">
+			<title>Kreis.51</title>
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+			</v:userDefs>
+			<path d="M0 588.9 A6.37795 6.37795 0 1 1 12.76 588.9 A6.37795 6.37795 0 0 1 0 588.9 Z" class="st10"/>
+		</g>
+		<g id="shape52-60" v:mID="52" v:groupContext="shape" transform="translate(-43.937,227.48) rotate(-90)">
+			<title>Kreis.52</title>
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+			</v:userDefs>
+			<path d="M0 588.9 A6.37795 6.37795 0 1 1 12.76 588.9 A6.37795 6.37795 0 0 1 0 588.9 Z" class="st10"/>
+		</g>
+		<g id="shape53-62" v:mID="53" v:groupContext="shape" transform="translate(-43.937,211.181) rotate(-90)">
+			<title>Kreis.53</title>
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+			</v:userDefs>
+			<path d="M0 588.9 A6.37795 6.37795 0 1 1 12.76 588.9 A6.37795 6.37795 0 0 1 0 588.9 Z" class="st10"/>
+		</g>
+		<g id="shape56-64" v:mID="56" v:groupContext="shape" transform="translate(766.772,452.835) rotate(90)">
+			<title>Kreis.56</title>
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+			</v:userDefs>
+			<path d="M0 588.9 A6.37795 6.37795 0 1 1 12.76 588.9 A6.37795 6.37795 0 0 1 0 588.9 Z" class="st10"/>
+		</g>
+		<g id="shape57-66" v:mID="57" v:groupContext="shape" transform="translate(766.772,469.134) rotate(90)">
+			<title>Kreis.57</title>
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+			</v:userDefs>
+			<path d="M0 588.9 A6.37795 6.37795 0 1 1 12.76 588.9 A6.37795 6.37795 0 0 1 0 588.9 Z" class="st10"/>
+		</g>
+	</g>
+</svg>
